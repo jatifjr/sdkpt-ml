@@ -1,0 +1,49 @@
+# Python-specific
+*.pyc
+__pycache__/
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+venv/
+env/
+.venv/
+.virtualenv/
+
+# IDE/Editor-specific
+.vscode/
+.idea/
+
+# Dependency Directories
+lib/
+libs/
+lib64/
+include/
+bin/
+share/
+locales/
+
+# Logs and Databases
+*.log
+*.sqlite
+db.sqlite3
+
+# Compiled Python files
+*.pyc
+
+# Ignore local development settings (if you use Django, Flask, etc.)
+*.env
+
+# Ignore Python bytecode (generated files)
+__pycache__/
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore Python package management files
+pip-lock.txt
