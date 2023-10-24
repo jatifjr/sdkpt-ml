@@ -9,7 +9,7 @@ COPY . /app
 
 # Install any needed packages specified in requirements.txt
 RUN python3 -m venv .venv
-RUN source .venv/bin/activate
+RUN source ./.venv/bin/activate
 RUN pip install -r requirements.txt
 
 # Expose port 80 for the API
