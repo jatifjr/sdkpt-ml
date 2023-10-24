@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  sdkpt-ml:
+    image: sdkpt-ml # Replace with the actual image name or image path
+    container_name: sdkpt-ml
+    ports:
+      - "8000:8000"
+    networks:
+      - jatifjr_default # Replace with your network name if different
+
+networks:
+  jatifjr_default:
+    external: true # Use an existing external network
