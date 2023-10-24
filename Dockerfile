@@ -1,19 +1,17 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim-buster
+# Use the official Python image as the base image
+FROM python:3.11
 
-# Set the working directory to /app
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
+# Copy the contents of the current directory into the container at /app
 COPY . /app
 
-# Install any needed packages specified in requirements.txt
-# RUN python3 -m venv .venv
-# RUN source ./.venv/bin/activate
+# Install required packages
 RUN pip install -r requirements.txt
 
-# Expose port 80 for the API
-EXPOSE 80
+# Expose the port that your FastAPI app will run on
+EXPOSE 8000
 
-# Run the API
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+# Command to run the FastAPI app
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
