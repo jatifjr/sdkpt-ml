@@ -32,9 +32,9 @@ class ForecastService:
 
         # Set the 'Month' column as the index
         data.set_index('Month', inplace=True)
-
-        # Convert real data to a list of dictionaries for Recharts format
-        real_data = [{"Month": str(date), "RealValue": real_value}
+    
+        # Convert real data to a list of dictionaries with formatted "Month" values
+        real_data = [{"Month": date.strftime('%Y-%m-%d'), "RealValue": real_value}
                      for date, real_value in zip(data.index, data['Value'])]
 
         return real_data
@@ -79,8 +79,8 @@ class ForecastService:
         # Predict values for the future months
         future_predictions = model_fit.get_forecast(steps=len(future_months))
 
-        # Convert predicted data to a list of dictionaries for Recharts format
-        predicted_data = [{"Month": str(date), "PredictedValue": predicted_value}
+        # Convert predicted data to a list of dictionaries with formatted "Month" values
+        predicted_data = [{"Month": date.strftime('%Y-%m-%d'), "PredictedValue": predicted_value}
                           for date, predicted_value in zip(future_months, future_predictions.predicted_mean)]
 
         return predicted_data
