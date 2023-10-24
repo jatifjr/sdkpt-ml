@@ -7,6 +7,7 @@ services:
       - "8000:8000"
     networks:
       - jatifjr_default # Replace with your network name if different
+    restart: unless-stopped
 
 networks:
   jatifjr_default:
