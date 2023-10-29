@@ -1,11 +1,5 @@
 from fastapi import APIRouter, Path
 from fastapi.exceptions import HTTPException
-from fastapi.responses import JSONResponse
-
-from typing import List
-import pandas as pd
-import numpy as np
-from statsmodels.tsa.statespace.sarimax import SARIMAX
 from app.service.prediction_service import ForecastService
 
 
