@@ -11,7 +11,7 @@ class IntervensiService:
                                             == kelurahan_id]
 
         if kerentanan_row.empty:
-            return "Kelurahan not found"
+            return []
 
         kategori_kerentanan = kerentanan_row['kategori_kerentanan'].values[0]
 
@@ -25,9 +25,7 @@ class IntervensiService:
         level = level_mapping.get(kategori_kerentanan)
 
         filtered_intervensi = self.intervensi_df[self.intervensi_df['level_intervensi'] == level]
-        unique_tipe_intervensi = filtered_intervensi['tipe_intervensi'].unique(
-        )
-
         isi_intervensi = filtered_intervensi['isi_intervensi'].tolist()
 
-        return isi_intervensi
+        # Return a list of dictionaries
+        return [{"intervensi": item} for item in isi_intervensi]
