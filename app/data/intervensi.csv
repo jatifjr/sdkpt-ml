@@ -1,0 +1,13 @@
+id_intervensi,isi_intervensi,tipe_intervensi,level_intervensi
+1,"Kampanye sosialisasi melalui media massa, seperti radio, televisi, dan media sosial, untuk meningkatkan kesadaran masyarakat tentang TB, gejala, dan cara penularannya.",edukasi,1
+2,"Penyuluhan kelompok kecil di komunitas, seperti pertemuan kelompok, sekolah, dan kantor, untuk memberikan informasi dasar tentang TB, pencegahan, dan tanda-tanda awal penyakit.",edukasi,2
+3,Pelatihan tenaga kesehatan dan petugas kesehatan masyarakat tentang cara mengenali tanda-tanda TB dan cara melakukan tes TB.,edukasi,3
+4,"Meningkatkan kerja sama antara sektor kesehatan dan lembaga terkait untuk mendeteksi kasus TB lebih awal dan mencegah penularan di fasilitas kesehatan, penjara, dan tempat lain dengan risiko tinggi.",edukasi,4
+5,"Buat konten yang mudah dimengerti dan sesuaikan dengan audiens target, sehingga orang-orang lebih sadar akan risiko TB dan langkah-langkah pencegahannya.",literasi,1
+6,Kolaborasikan dengan pusat kesehatan lokal untuk menyediakan layanan saringan TB kepada masyarakat.,literasi,2
+7,Dorong penyedia layanan kesehatan untuk merujuk kasus TB yang dicurigai ke laboratorium dan memberikan perawatan yang tepat waktu.,literasi,3
+8,Pencarian aktif dapat mencakup kunjungan rumah oleh petugas kesehatan untuk mengidentifikasi kasus TB yang belum terdiagnosis.,literasi,4
+9,"Menggunakan media sosial, brosur, poster, dan ceramah publik untuk menyebarkan informasi yang benar dan memerangi mitos yang berkembang.",stigma,1
+10,"Melakukan pelatihan bagi tenaga kesehatan, pekerja sosial, dan petugas kesehatan masyarakat tentang bagaimana berinteraksi dengan pasien TB tanpa menunjukkan sikap diskriminatif.",stigma,2
+11,"Menyediakan dukungan psikososial bagi individu yang terinfeksi TB atau keluarga mereka. Dukungan ini dapat mencakup konseling, grup dukungan, dan layanan psikologis.",stigma,3
+12,"Mendirikan kelompok pendukung komunitas yang terdiri dari mantan pasien TB dan anggota masyarakat yang peduli, yang dapat menjadi panutan bagi individu yang terkena TB.",stigma,4
