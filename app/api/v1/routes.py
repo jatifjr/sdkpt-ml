@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.v1.endpoints import root, prediction, vulnerability, intervention
+from app.api.v1.endpoints import root, prediction, vulnerability, intervention, cases
 
 api_router = APIRouter()
 
@@ -8,3 +8,4 @@ api_router = APIRouter()
 api_router.include_router(prediction.router, tags=["forecast"])
 api_router.include_router(vulnerability.router, tags=["vulnerability"])
 api_router.include_router(intervention.router, tags=["intervention"])
+api_router.include_router(cases.router, tags=["cases"])
