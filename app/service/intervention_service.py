@@ -1,4 +1,5 @@
 import pandas as pd
+from fastapi import HTTPException
 
 
 class IntervensiService:
@@ -35,17 +36,23 @@ class IntervensiService:
         return result
 
     def get_interventions_list(self, kelurahan_id):
+        # Check if the kelurahan_id is in the dataset
+        if kelurahan_id not in self.intervensi_static_df['id'].values:
+            raise HTTPException(
+                status_code=404, detail="Kelurahan not found in the dataset")
+
         filtered_intervensi = self.intervensi_static_df[self.intervensi_static_df['id'] == kelurahan_id]
 
         # Extract interventions from 'Intervensi 1' to 'Intervensi 7'
         interventions_columns = ['Intervensi 1', 'Intervensi 2', 'Intervensi 3',
                                  'Intervensi 4', 'Intervensi 5', 'Intervensi 6', 'Intervensi 7']
 
-        # Check if all values are "Undefined"
-        if filtered_intervensi.empty or all(filtered_intervensi[column].values[0] == "Undefined" for column in interventions_columns):
-            return [{'isi_intervensi': 'Belum ada intervensi'}]
+        # Check if any value is "Undefined"
+        if any(filtered_intervensi[column].values[0] == "Undefined" for column in interventions_columns):
+            raise HTTPException(
+                status_code=404, detail="Tidak ad intervensi")
 
-        # If not all values are "Undefined," proceed to create the response
+        # If not, proceed to create the response
         interventions_list = []
 
         for _, row in filtered_intervensi.iterrows():
