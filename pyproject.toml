@@ -2,7 +2,7 @@
 name = "sdkpt-ml"
 version = "0.1.0"
 description = ""
-authors = ["Ahmad Fajar Kusumajati 111202012995@mhs.dinus.ac.id"]
+authors = ["Ahmad Fajar Kusumajati <111202012995@mhs.dinus.ac.id>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
