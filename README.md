@@ -1,5 +1,23 @@
 # **SDKPT Machine Learning API**
 
-SDKPT adalah sistem yang dikembangkan...
+## Setup
 
-## **Introduction**
+### Install Python
+
+### Install poetry
+
+```bash
+pip install poetry
+```
+
+### Install dependencies
+
+```bash
+poetry install
+```
+
+### Run the server
+
+```bash
+poetry run uvicorn app.main:app
+```
