@@ -47,12 +47,11 @@ class IntervensiService:
         interventions_columns = ['Intervensi 1', 'Intervensi 2', 'Intervensi 3',
                                  'Intervensi 4', 'Intervensi 5', 'Intervensi 6', 'Intervensi 7']
 
-        # Check if any value is "Undefined"
-        if any(filtered_intervensi[column].values[0] == "Undefined" for column in interventions_columns):
-            raise HTTPException(
-                status_code=404, detail="Tidak ad intervensi")
+        # Check if all values are "Undefined"
+        if filtered_intervensi.empty or all(filtered_intervensi[column].values[0] == "Undefined" for column in interventions_columns):
+            return [{'isi_intervensi': 'Belum ada intervensi'}]
 
-        # If not, proceed to create the response
+        # If not all values are "Undefined," proceed to create the response
         interventions_list = []
 
         for _, row in filtered_intervensi.iterrows():
