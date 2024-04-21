@@ -1,0 +1,178 @@
+id,kelurahan,jumlah_kasus,kategori_kerentanan
+1,Tawangsari,10,Tidak Rentan
+2,Krobokan,119,Sangat Rentan
+3,Purwodinatan,42,Cukup Rentan
+4,Bulustalan,23,Tidak Rentan
+5,Wonodri,74,Rentan
+6,Mlatibaru,60,Rentan
+7,Pendrikan kidul,14,Tidak Rentan
+8,Gisikdrono,118,Sangat Rentan
+9,Tawangmas,51,Rentan
+10,Cabean,8,Tidak Rentan
+11,Salamanmloyo,24,Tidak Rentan
+12,Karang ayu,41,Cukup Rentan
+13,Kalibanteng kulon,70,Rentan
+14,Kalibanteng kidul,34,Cukup Rentan
+15,Bongsari,98,Sangat Rentan
+16,Manyaran,118,Sangat Rentan
+17,Ngemplaksimongan,78,Rentan
+18,Bojongsalaman,41,Cukup Rentan
+19,Kembangarum,148,Sangat Rentan
+20,Krapyak,36,Cukup Rentan
+21,Tambak harjo,22,Tidak Rentan
+22,Purwosari,97,Sangat Rentan
+23,Kuningan,133,Sangat Rentan
+24,Panggung kidul,49,Rentan
+25,Bandarharjo,158,Sangat Rentan
+26,Panggung lor,64,Rentan
+27,Plombokan,71,Rentan
+28,Kranggan,18,Tidak Rentan
+29,Gabahan,42,Cukup Rentan
+30,Kauman,22,Tidak Rentan
+31,Jagalan,58,Rentan
+32,Bangunharjo,22,Tidak Rentan
+33,Kembangsari,26,Cukup Rentan
+34,Pandansari,21,Tidak Rentan
+35,Sekayu,24,Tidak Rentan
+36,Miroto,32,Cukup Rentan
+37,Brumbungan,19,Tidak Rentan
+38,Pekunden,12,Tidak Rentan
+39,Karangkidul,31,Cukup Rentan
+40,Mlatiharjo,45,Cukup Rentan
+41,Rejomulyo,41,Cukup Rentan
+42,Kemijen,122,Sangat Rentan
+43,Bugangan,119,Sangat Rentan
+44,Kebonagung,41,Cukup Rentan
+45,Sarirejo,55,Rentan
+46,Rejosari,96,Sangat Rentan
+47,Banjardowo,75,Rentan
+48,Sembungharjo,86,Sangat Rentan
+49,Bangetayu kulon,147,Sangat Rentan
+50,Bangetayu wetan,105,Sangat Rentan
+51,Genuksari,107,Sangat Rentan
+52,Gebangsari,27,Cukup Rentan
+53,Terboyo wetan,6,Tidak Rentan
+54,Muktiharjo lor,18,Tidak Rentan
+55,Terboyo Kulon,2,Tidak Rentan
+56,Trimulyo,21,Tidak Rentan
+57,Tlogosari wetan,68,Rentan
+58,Pedurungan tengah,106,Sangat Rentan
+59,Tlogosari kulon,225,Sangat Rentan
+60,Palebon,70,Rentan
+61,Gemah,103,Sangat Rentan
+62,Kalicari,55,Rentan
+63,Tlogomulyo,106,Sangat Rentan
+64,Pedurungan lor,53,Rentan
+65,Pedurungan kidul,91,Sangat Rentan
+66,Penggaron kidul,38,Cukup Rentan
+67,Gajahmungkur,114,Sangat Rentan
+68,Bendan ngisor,43,Cukup Rentan
+69,Bendan duwur,40,Cukup Rentan
+70,Bendungan,24,Tidak Rentan
+71,Petompon,41,Cukup Rentan
+72,Sampangan,63,Rentan
+73,Karanganyar gunung,55,Rentan
+74,Sendangmulyo,226,Sangat Rentan
+75,Sambiroto,101,Sangat Rentan
+76,Tembalang,46,Rentan
+77,Mangunharjo,93,Sangat Rentan
+78,Meteseh,113,Sangat Rentan
+79,Bulusan,42,Cukup Rentan
+80,Sumurboto,29,Cukup Rentan
+81,Srondol kulon,59,Rentan
+82,Srondol wetan,86,Sangat Rentan
+83,Pedalangan,59,Rentan
+84,Banyumanik,57,Rentan
+85,Padangsari,57,Rentan
+86,Gedawang,43,Cukup Rentan
+87,Pungangan,33,Cukup Rentan
+88,Kandri,20,Tidak Rentan
+89,Kalisegoro,18,Tidak Rentan
+90,Ngijo,15,Tidak Rentan
+91,Cepoko,14,Tidak Rentan
+92,Nongkosawit,19,Tidak Rentan
+93,Gunungpati,45,Cukup Rentan
+94,Plalangan,14,Tidak Rentan
+95,Sekaran,53,Rentan
+96,Sadeng,43,Cukup Rentan
+97,Patemon,27,Cukup Rentan
+98,Mangunsari,12,Tidak Rentan
+99,Pakintelan,21,Tidak Rentan
+100,Wonoplumbon,10,Tidak Rentan
+101,Wonolopo,46,Rentan
+102,Ngadirgo,23,Tidak Rentan
+103,Mijen,43,Cukup Rentan
+104,Purwosari,97,Sangat Rentan
+105,Jatibarang,13,Tidak Rentan
+106,Pesantren,9,Tidak Rentan
+107,Jatisari,57,Rentan
+108,Tambangan,17,Tidak Rentan
+109,Cangkiran,23,Tidak Rentan
+110,Bubakan,15,Tidak Rentan
+111,Polaman,10,Tidak Rentan
+112,Gondoriyo,34,Cukup Rentan
+113,Podorejo,34,Cukup Rentan
+114,Wates,42,Cukup Rentan
+115,Tambakaji,172,Sangat Rentan
+116,Bringin,91,Sangat Rentan
+117,Ngaliyan,100,Sangat Rentan
+118,Sambirejo,53,Rentan
+119,Tandang,159,Sangat Rentan
+120,Pleburan,13,Tidak Rentan
+121,Karangturi,25,Cukup Rentan
+122,Sawahbesar,83,Rentan
+123,Lamper lor,40,Cukup Rentan
+124,Penggaron lor,26,Cukup Rentan
+125,Peterongan,42,Cukup Rentan
+126,Pudakpayung,81,Rentan
+127,Tinjomoyo,57,Rentan
+128,Kedungpani,46,Rentan
+129,Jatirejo,11,Tidak Rentan
+130,Wonosari,126,Sangat Rentan
+131,Tambakrejo,70,Rentan
+132,Karanganyar,29,Cukup Rentan
+133,Karangmalang,18,Tidak Rentan
+134,Purwoyoso,101,Sangat Rentan
+135,Kalipancur,109,Sangat Rentan
+136,Karang rejo,39,Cukup Rentan
+137,Kaligawe,71,Rentan
+138,Pendrikan lor,44,Cukup Rentan
+139,Karangtempel,27,Cukup Rentan
+140,Jangli,46,Rentan
+141,Pandean lamper,76,Rentan
+142,Randusari,63,Rentan
+143,Bulu lor,105,Sangat Rentan
+144,Jerakah,10,Tidak Rentan
+145,Sukorejo,119,Sangat Rentan
+146,Barusari,35,Cukup Rentan
+147,Jomblang,138,Sangat Rentan
+148,Gayamsari,66,Rentan
+149,Lamper tengah,78,Rentan
+150,Tegalsari,113,Sangat Rentan
+151,Mangkang wetan,37,Cukup Rentan
+152,Randu garut,24,Tidak Rentan
+153,Tugurejo,68,Rentan
+154,Mangkang kulon,27,Cukup Rentan
+155,Mangunharjo,93,Sangat Rentan
+156,Bambankerep,31,Cukup Rentan
+157,Kramas,14,Tidak Rentan
+158,Jabungan,13,Tidak Rentan
+159,Rowosari,69,Rentan
+160,Plamongan sari,60,Rentan
+161,Ngesrep,64,Rentan
+162,Jatingaleh,70,Rentan
+163,Kaliwiru,20,Tidak Rentan
+164,Wonotingal,65,Rentan
+165,Lempongsari,41,Cukup Rentan
+166,Candi,113,Sangat Rentan
+167,Lamper kidul,25,Cukup Rentan
+168,Kedungmundu,84,Rentan
+169,Sendangguwo,166,Sangat Rentan
+170,Mugassari,52,Rentan
+171,Siwalan,53,Rentan
+172,Muktiharjo kidul,248,Sangat Rentan
+173,Kudu,99,Sangat Rentan
+174,Karangroto,134,Sangat Rentan
+175,Tanjungmas,245,Sangat Rentan
+176,Dadapsari,75,Rentan
+177,Sumurejo,10,Tidak Rentan

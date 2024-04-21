@@ -1,0 +1,178 @@
+id,nama_kelurahan,literasi_excellent,literasi_inadequate,literasi_problematic,literasi_sufficient,avg_literasi,persentase_literasi,stigma_rendah,stigma_sedang,stigma_tinggi,tidak_stigma,avg_stigma,persentase_stigma,pengetahuan_baik,pengetahuan_buruk,pengetahuan_cukup,pengetahuan_kurang,avg_pengetahuan,persentase_pengetahuan
+1,tawangsari,0.00,0.96,0.04,0.00,inadequate,0.96,0.21,0.21,0.00,0.57,tidak stigma,0.57,0.00,0.00,0.50,0.50,cukup,0.50
+2,krobokan,0.00,1.00,0.00,0.00,inadequate,1.00,0.33,0.13,0.07,0.47,tidak stigma,0.47,0.00,0.07,0.50,0.43,cukup,0.50
+3,purwodinatan,0.00,1.00,0.00,0.00,inadequate,1.00,0.00,0.25,0.00,0.75,tidak stigma,0.75,0.00,0.00,0.50,0.50,cukup,0.50
+4,bulustalan,0.00,0.89,0.00,0.11,inadequate,0.89,0.19,0.11,0.07,0.63,tidak stigma,0.63,0.00,0.00,0.63,0.37,cukup,0.63
+5,wonodri,0.00,1.00,0.00,0.00,inadequate,1.00,0.28,0.10,0.00,0.62,tidak stigma,0.62,0.00,0.00,0.59,0.41,cukup,0.59
+6,mlatibaru,0.00,1.00,0.00,0.00,inadequate,1.00,0.14,0.11,0.00,0.75,tidak stigma,0.75,0.00,0.00,0.50,0.50,cukup,0.50
+7,pendrikan kidul,0.00,1.00,0.00,0.00,inadequate,1.00,0.33,0.00,0.00,0.67,tidak stigma,0.67,0.00,0.00,0.67,0.33,cukup,0.67
+8,gisikdrono,0.06,0.83,0.11,0.00,inadequate,0.83,0.37,0.13,0.06,0.44,tidak stigma,0.44,0.07,0.00,0.57,0.35,cukup,0.57
+9,tawangmas,0.00,1.00,0.00,0.00,inadequate,1.00,0.29,0.08,0.00,0.63,tidak stigma,0.63,0.00,0.00,0.58,0.42,cukup,0.58
+10,cabean,0.00,1.00,0.00,0.00,inadequate,1.00,0.00,0.13,0.00,0.88,tidak stigma,0.88,0.00,0.00,0.50,0.50,cukup,0.50
+11,salamanmloyo,0.00,1.00,0.00,0.00,inadequate,1.00,0.32,0.00,0.00,0.68,tidak stigma,0.68,0.05,0.00,0.53,0.42,cukup,0.53
+12,karang ayu,0.00,0.96,0.04,0.00,inadequate,0.96,0.16,0.20,0.00,0.64,tidak stigma,0.64,0.00,0.00,0.40,0.60,kurang,0.60
+13,kalibanteng kulon,0.00,1.00,0.00,0.00,inadequate,1.00,0.13,0.07,0.00,0.80,tidak stigma,0.80,0.00,0.00,0.40,0.60,kurang,0.60
+14,kalibanteng kidul,0.06,0.86,0.06,0.03,inadequate,0.86,0.31,0.14,0.03,0.51,tidak stigma,0.51,0.06,0.06,0.57,0.31,cukup,0.57
+15,bongsari,0.00,1.00,0.00,0.00,inadequate,1.00,0.33,0.14,0.00,0.52,tidak stigma,0.52,0.00,0.00,0.52,0.48,cukup,0.52
+16,manyaran,0.05,0.80,0.10,0.05,inadequate,0.80,0.28,0.10,0.00,0.63,tidak stigma,0.63,0.00,0.03,0.35,0.63,kurang,0.63
+17,ngemplaksimongan,0.03,0.93,0.03,0.03,inadequate,0.93,0.30,0.05,0.03,0.63,tidak stigma,0.63,0.08,0.00,0.40,0.53,kurang,0.53
+18,bojongsalaman,0.00,0.94,0.03,0.03,inadequate,0.94,0.19,0.06,0.06,0.69,tidak stigma,0.69,0.03,0.00,0.59,0.38,cukup,0.59
+19,kembangarum,0.00,0.96,0.04,0.00,inadequate,0.96,0.15,0.08,0.04,0.73,tidak stigma,0.73,0.00,0.00,0.54,0.46,cukup,0.54
+20,krapyak,0.00,1.00,0.00,0.00,inadequate,1.00,0.27,0.08,0.00,0.65,tidak stigma,0.65,0.00,0.00,0.54,0.46,cukup,0.54
+21,tambak harjo,0.00,1.00,0.00,0.00,inadequate,1.00,0.22,0.00,0.00,0.78,tidak stigma,0.78,0.06,0.00,0.28,0.67,kurang,0.67
+22,purwosari,0.00,1.00,0.00,0.00,inadequate,1.00,0.26,0.00,0.00,0.74,tidak stigma,0.74,0.00,0.00,0.52,0.48,cukup,0.52
+23,kuningan,0.00,1.00,0.00,0.00,inadequate,1.00,0.20,0.05,0.00,0.75,tidak stigma,0.75,0.00,0.00,0.54,0.46,cukup,0.54
+24,panggung kidul,0.00,0.98,0.02,0.00,inadequate,0.98,0.32,0.11,0.07,0.50,tidak stigma,0.50,0.02,0.02,0.59,0.36,cukup,0.59
+25,bandarharjo,0.00,0.84,0.08,0.08,inadequate,0.84,0.41,0.17,0.12,0.30,stigma rendah,0.41,0.13,0.01,0.28,0.58,kurang,0.58
+26,panggung lor,0.00,0.96,0.00,0.04,inadequate,0.96,0.36,0.00,0.04,0.60,tidak stigma,0.60,0.00,0.00,0.60,0.40,cukup,0.60
+27,plombokan,0.00,1.00,0.00,0.00,inadequate,1.00,0.19,0.12,0.00,0.70,tidak stigma,0.70,0.00,0.00,0.53,0.47,cukup,0.53
+28,kranggan,0.00,1.00,0.00,0.00,inadequate,1.00,0.31,0.08,0.00,0.62,tidak stigma,0.62,0.00,0.00,0.62,0.38,cukup,0.62
+29,gabahan,0.00,1.00,0.00,0.00,inadequate,1.00,0.33,0.00,0.00,0.67,tidak stigma,0.67,0.00,0.00,0.44,0.56,kurang,0.56
+30,kauman,0.00,1.00,0.00,0.00,inadequate,1.00,1.00,0.00,0.00,0.00,stigma rendah,1.00,0.00,0.00,1.00,0.00,cukup,1.00
+31,jagalan,0.00,1.00,0.00,0.00,inadequate,1.00,0.28,0.17,0.06,0.50,tidak stigma,0.50,0.00,0.00,0.61,0.39,cukup,0.61
+32,bangunharjo,0.00,1.00,0.00,0.00,inadequate,1.00,0.00,0.00,0.00,1.00,tidak stigma,1.00,0.00,0.00,0.50,0.50,cukup,0.50
+33,kembangsari,0.00,1.00,0.00,0.00,inadequate,1.00,0.43,0.07,0.00,0.50,tidak stigma,0.50,0.00,0.00,0.57,0.43,cukup,0.57
+34,pandansari,0.00,1.00,0.00,0.00,inadequate,1.00,0.38,0.08,0.00,0.54,tidak stigma,0.54,0.00,0.00,0.77,0.23,cukup,0.77
+35,sekayu,0.00,1.00,0.00,0.00,inadequate,1.00,0.46,0.00,0.00,0.54,tidak stigma,0.54,0.00,0.00,0.54,0.46,cukup,0.54
+36,miroto,0.00,1.00,0.00,0.00,inadequate,1.00,0.38,0.00,0.00,0.62,tidak stigma,0.62,0.00,0.00,0.54,0.46,cukup,0.54
+37,brumbungan,0.00,1.00,0.00,0.00,inadequate,1.00,0.40,0.00,0.00,0.60,tidak stigma,0.60,0.00,0.00,0.40,0.60,kurang,0.60
+38,pekunden,0.00,1.00,0.00,0.00,inadequate,1.00,0.00,0.17,0.00,0.83,tidak stigma,0.83,0.00,0.00,0.67,0.33,cukup,0.67
+39,karangkidul,0.00,1.00,0.00,0.00,inadequate,1.00,0.35,0.06,0.00,0.59,tidak stigma,0.59,0.00,0.00,0.53,0.47,cukup,0.53
+40,mlatiharjo,0.00,1.00,0.00,0.00,inadequate,1.00,0.27,0.07,0.00,0.67,tidak stigma,0.67,0.00,0.00,0.73,0.27,cukup,0.73
+41,rejomulyo,0.00,1.00,0.00,0.00,inadequate,1.00,0.17,0.13,0.00,0.70,tidak stigma,0.70,0.00,0.00,0.43,0.57,kurang,0.57
+42,kemijen,0.00,0.95,0.00,0.05,inadequate,0.95,0.26,0.21,0.00,0.53,tidak stigma,0.53,0.05,0.00,0.47,0.47,cukup,0.47
+43,bugangan,0.04,0.76,0.04,0.16,inadequate,0.76,0.38,0.11,0.11,0.40,tidak stigma,0.40,0.04,0.02,0.49,0.44,cukup,0.49
+44,kebonagung,0.00,1.00,0.00,0.00,inadequate,1.00,0.25,0.00,0.00,0.75,tidak stigma,0.75,0.00,0.00,0.50,0.50,cukup,0.50
+45,sarirejo,0.04,0.87,0.04,0.04,inadequate,0.87,0.33,0.02,0.07,0.58,tidak stigma,0.58,0.04,0.00,0.51,0.44,cukup,0.51
+46,rejosari,0.00,1.00,0.00,0.00,inadequate,1.00,0.19,0.25,0.06,0.50,tidak stigma,0.50,0.06,0.00,0.69,0.25,cukup,0.69
+47,banjardowo,0.00,1.00,0.00,0.00,inadequate,1.00,0.22,0.06,0.00,0.72,tidak stigma,0.72,0.00,0.00,0.47,0.53,kurang,0.53
+48,sembungharjo,0.00,1.00,0.00,0.00,inadequate,1.00,0.34,0.05,0.00,0.61,tidak stigma,0.61,0.00,0.00,0.54,0.46,cukup,0.54
+49,bangetayu kulon,0.00,0.97,0.03,0.00,inadequate,0.97,0.35,0.09,0.00,0.56,tidak stigma,0.56,0.00,0.00,0.50,0.50,cukup,0.50
+50,bangetayu wetan,0.06,0.94,0.00,0.00,inadequate,0.94,0.21,0.12,0.06,0.62,tidak stigma,0.62,0.12,0.00,0.44,0.44,cukup,0.44
+51,genuksari,0.00,1.00,0.00,0.00,inadequate,1.00,0.31,0.03,0.00,0.66,tidak stigma,0.66,0.00,0.00,0.50,0.50,cukup,0.50
+52,gebangsari,0.00,1.00,0.00,0.00,inadequate,1.00,0.33,0.02,0.00,0.64,tidak stigma,0.64,0.00,0.00,0.48,0.52,kurang,0.52
+53,terboyo wetan,0.00,1.00,0.00,0.00,inadequate,1.00,0.29,0.00,0.00,0.71,tidak stigma,0.71,0.00,0.00,0.53,0.47,cukup,0.53
+54,muktiharjo lor,0.00,1.00,0.00,0.00,inadequate,1.00,0.18,0.14,0.00,0.68,tidak stigma,0.68,0.00,0.00,0.36,0.64,kurang,0.64
+55,terboyo kulon,0.00,1.00,0.00,0.00,inadequate,1.00,0.24,0.10,0.00,0.67,tidak stigma,0.67,0.00,0.00,0.71,0.29,cukup,0.71
+56,trimulyo,0.00,1.00,0.00,0.00,inadequate,1.00,0.21,0.06,0.00,0.74,tidak stigma,0.74,0.00,0.00,0.76,0.24,cukup,0.76
+57,tlogosari wetan,0.00,1.00,0.00,0.00,inadequate,1.00,0.27,0.03,0.00,0.70,tidak stigma,0.70,0.00,0.00,0.60,0.40,cukup,0.60
+58,pedurungan tengah,0.00,1.00,0.00,0.00,inadequate,1.00,0.43,0.00,0.00,0.57,tidak stigma,0.57,0.00,0.00,0.59,0.41,cukup,0.59
+59,tlogosari kulon,0.04,0.81,0.05,0.10,inadequate,0.81,0.41,0.25,0.06,0.28,stigma rendah,0.41,0.11,0.05,0.44,0.40,cukup,0.44
+60,palebon,0.00,1.00,0.00,0.00,inadequate,1.00,0.38,0.04,0.00,0.58,tidak stigma,0.58,0.00,0.00,0.47,0.53,kurang,0.53
+61,gemah,0.00,1.00,0.00,0.00,inadequate,1.00,0.30,0.00,0.02,0.67,tidak stigma,0.67,0.00,0.00,0.65,0.35,cukup,0.65
+62,kalicari,0.00,1.00,0.00,0.00,inadequate,1.00,0.33,0.07,0.00,0.60,tidak stigma,0.60,0.00,0.00,0.60,0.40,cukup,0.60
+63,tlogomulyo,0.00,1.00,0.00,0.00,inadequate,1.00,0.39,0.06,0.00,0.56,tidak stigma,0.56,0.00,0.00,0.53,0.47,cukup,0.53
+64,pedurungan lor,0.00,1.00,0.00,0.00,inadequate,1.00,0.41,0.07,0.00,0.52,tidak stigma,0.52,0.00,0.00,0.48,0.52,kurang,0.52
+65,pedurungan kidul,0.00,1.00,0.00,0.00,inadequate,1.00,0.35,0.05,0.00,0.59,tidak stigma,0.59,0.00,0.00,0.57,0.43,cukup,0.57
+66,penggaron kidul,0.00,1.00,0.00,0.00,inadequate,1.00,0.28,0.04,0.00,0.68,tidak stigma,0.68,0.00,0.00,0.38,0.62,kurang,0.62
+67,gajahmungkur,0.04,0.80,0.08,0.08,inadequate,0.80,0.26,0.12,0.14,0.48,tidak stigma,0.48,0.12,0.02,0.40,0.46,kurang,0.46
+68,bendan ngisor,0.00,1.00,0.00,0.00,inadequate,1.00,0.44,0.06,0.00,0.50,tidak stigma,0.50,0.00,0.00,0.50,0.50,cukup,0.50
+69,bendan duwur,0.00,0.96,0.04,0.00,inadequate,0.96,0.46,0.08,0.04,0.42,stigma rendah,0.46,0.04,0.00,0.54,0.42,cukup,0.54
+70,bendungan,0.00,0.93,0.07,0.00,inadequate,0.93,0.18,0.07,0.04,0.71,tidak stigma,0.71,0.00,0.04,0.43,0.54,kurang,0.54
+71,petompon,0.00,1.00,0.00,0.00,inadequate,1.00,0.36,0.03,0.00,0.61,tidak stigma,0.61,0.00,0.00,0.42,0.58,kurang,0.58
+72,sampangan,0.00,1.00,0.00,0.00,inadequate,1.00,0.31,0.00,0.00,0.69,tidak stigma,0.69,0.00,0.00,0.50,0.50,cukup,0.50
+73,karanganyar gunung,0.00,1.00,0.00,0.00,inadequate,1.00,0.30,0.06,0.00,0.64,tidak stigma,0.64,0.00,0.00,0.52,0.48,cukup,0.52
+74,sendangmulyo,0.00,0.97,0.03,0.00,inadequate,0.97,0.28,0.09,0.01,0.61,tidak stigma,0.61,0.00,0.00,0.53,0.47,cukup,0.53
+75,sambiroto,0.00,0.94,0.03,0.03,inadequate,0.94,0.26,0.08,0.03,0.63,tidak stigma,0.63,0.02,0.00,0.51,0.48,cukup,0.51
+76,tembalang,0.00,0.98,0.02,0.00,inadequate,0.98,0.19,0.08,0.00,0.73,tidak stigma,0.73,0.00,0.00,0.52,0.48,cukup,0.52
+77,mangunharjo,0.00,1.00,0.00,0.00,inadequate,1.00,0.16,0.20,0.05,0.59,tidak stigma,0.59,0.02,0.02,0.50,0.45,cukup,0.50
+78,meteseh,0.02,0.95,0.04,0.00,inadequate,0.95,0.23,0.14,0.02,0.61,tidak stigma,0.61,0.05,0.00,0.65,0.30,cukup,0.65
+79,bulusan,0.00,1.00,0.00,0.00,inadequate,1.00,0.35,0.07,0.02,0.56,tidak stigma,0.56,0.00,0.00,0.47,0.53,kurang,0.53
+80,sumurboto,0.00,1.00,0.00,0.00,inadequate,1.00,0.25,0.00,0.00,0.75,tidak stigma,0.75,0.00,0.00,0.42,0.58,kurang,0.58
+81,srondol kulon,0.00,1.00,0.00,0.00,inadequate,1.00,0.25,0.09,0.00,0.66,tidak stigma,0.66,0.00,0.00,0.50,0.50,cukup,0.50
+82,srondol wetan,0.00,1.00,0.00,0.00,inadequate,1.00,0.29,0.00,0.00,0.71,tidak stigma,0.71,0.00,0.00,0.62,0.38,cukup,0.62
+83,pedalangan,0.00,1.00,0.00,0.00,inadequate,1.00,0.32,0.05,0.00,0.64,tidak stigma,0.64,0.00,0.00,0.55,0.45,cukup,0.55
+84,banyumanik,0.00,0.88,0.04,0.08,inadequate,0.88,0.36,0.08,0.00,0.56,tidak stigma,0.56,0.04,0.00,0.52,0.44,cukup,0.52
+85,padangsari,0.00,1.00,0.00,0.00,inadequate,1.00,0.37,0.05,0.00,0.58,tidak stigma,0.58,0.00,0.00,0.42,0.58,kurang,0.58
+86,gedawang,0.02,0.95,0.02,0.00,inadequate,0.95,0.32,0.15,0.00,0.54,tidak stigma,0.54,0.05,0.00,0.44,0.51,kurang,0.51
+87,pungangan,0.05,0.90,0.05,0.00,inadequate,0.90,0.40,0.00,0.10,0.50,tidak stigma,0.50,0.10,0.05,0.40,0.45,kurang,0.45
+88,kandri,0.00,1.00,0.00,0.00,inadequate,1.00,0.17,0.06,0.00,0.78,tidak stigma,0.78,0.00,0.00,0.56,0.44,cukup,0.56
+89,kalisegoro,0.00,1.00,0.00,0.00,inadequate,1.00,0.29,0.08,0.00,0.63,tidak stigma,0.63,0.00,0.00,0.71,0.29,cukup,0.71
+90,ngijo,0.00,1.00,0.00,0.00,inadequate,1.00,0.00,0.00,0.00,1.00,tidak stigma,1.00,0.00,0.00,0.75,0.25,cukup,0.75
+91,cepoko,0.00,0.94,0.00,0.06,inadequate,0.94,0.41,0.06,0.00,0.53,tidak stigma,0.53,0.00,0.00,0.24,0.76,kurang,0.76
+92,nongkosawit,0.00,1.00,0.00,0.00,inadequate,1.00,0.46,0.00,0.00,0.54,tidak stigma,0.54,0.00,0.00,0.23,0.77,kurang,0.77
+93,gunungpati,0.00,0.93,0.03,0.03,inadequate,0.93,0.31,0.10,0.03,0.55,tidak stigma,0.55,0.03,0.00,0.31,0.66,kurang,0.66
+94,plalangan,0.00,1.00,0.00,0.00,inadequate,1.00,0.25,0.00,0.00,0.75,tidak stigma,0.75,0.00,0.00,0.00,1.00,kurang,1.00
+95,sekaran,0.00,1.00,0.00,0.00,inadequate,1.00,0.30,0.04,0.04,0.61,tidak stigma,0.61,0.00,0.00,0.70,0.30,cukup,0.70
+96,sadeng,0.00,1.00,0.00,0.00,inadequate,1.00,0.18,0.18,0.00,0.64,tidak stigma,0.64,0.00,0.00,0.73,0.27,cukup,0.73
+97,patemon,0.00,1.00,0.00,0.00,inadequate,1.00,0.20,0.10,0.20,0.50,tidak stigma,0.50,0.00,0.00,0.80,0.20,cukup,0.80
+98,mangunsari,0.00,1.00,0.00,0.00,inadequate,1.00,0.33,0.11,0.00,0.56,tidak stigma,0.56,0.00,0.00,0.44,0.56,kurang,0.56
+99,pakintelan,0.00,1.00,0.00,0.00,inadequate,1.00,0.00,0.00,0.00,1.00,tidak stigma,1.00,0.00,0.00,0.67,0.33,cukup,0.67
+100,wonoplumbon,0.00,1.00,0.00,0.00,inadequate,1.00,0.30,0.13,0.00,0.57,tidak stigma,0.57,0.00,0.00,0.61,0.39,cukup,0.61
+101,wonolopo,0.00,0.93,0.07,0.00,inadequate,0.93,0.27,0.07,0.00,0.67,tidak stigma,0.67,0.07,0.03,0.43,0.47,kurang,0.47
+102,ngadirgo,0.00,1.00,0.00,0.00,inadequate,1.00,0.40,0.13,0.00,0.47,tidak stigma,0.47,0.00,0.00,0.60,0.40,cukup,0.60
+103,mijen,0.12,0.76,0.12,0.00,inadequate,0.76,0.12,0.12,0.18,0.59,tidak stigma,0.59,0.00,0.00,0.53,0.47,cukup,0.53
+104,purwosari,0.00,1.00,0.00,0.00,inadequate,1.00,0.26,0.00,0.00,0.74,tidak stigma,0.74,0.00,0.00,0.52,0.48,cukup,0.52
+105,jatibarang,0.00,1.00,0.00,0.00,inadequate,1.00,0.29,0.00,0.00,0.71,tidak stigma,0.71,0.00,0.00,0.57,0.43,cukup,0.57
+106,pesantren,0.00,1.00,0.00,0.00,inadequate,1.00,0.25,0.06,0.00,0.69,tidak stigma,0.69,0.00,0.00,0.56,0.44,cukup,0.56
+107,jatisari,0.08,0.76,0.06,0.10,inadequate,0.76,0.38,0.14,0.08,0.40,tidak stigma,0.40,0.26,0.00,0.34,0.40,kurang,0.40
+108,tambangan,0.04,0.89,0.07,0.00,inadequate,0.89,0.44,0.00,0.00,0.56,tidak stigma,0.56,0.04,0.00,0.70,0.26,cukup,0.70
+109,cangkiran,0.00,0.96,0.04,0.00,inadequate,0.96,0.26,0.09,0.04,0.61,tidak stigma,0.61,0.04,0.00,0.52,0.43,cukup,0.52
+110,bubakan,0.00,1.00,0.00,0.00,inadequate,1.00,0.40,0.00,0.00,0.60,tidak stigma,0.60,0.00,0.00,0.60,0.40,cukup,0.60
+111,polaman,0.00,1.00,0.00,0.00,inadequate,1.00,0.30,0.10,0.00,0.60,tidak stigma,0.60,0.00,0.00,0.30,0.70,kurang,0.70
+112,gondoriyo,0.00,1.00,0.00,0.00,inadequate,1.00,0.25,0.00,0.00,0.75,tidak stigma,0.75,0.00,0.00,0.46,0.54,kurang,0.54
+113,podorejo,0.00,1.00,0.00,0.00,inadequate,1.00,0.17,0.04,0.00,0.78,tidak stigma,0.78,0.00,0.00,0.52,0.48,cukup,0.52
+114,wates,0.00,1.00,0.00,0.00,inadequate,1.00,0.17,0.11,0.00,0.71,tidak stigma,0.71,0.00,0.00,0.54,0.46,cukup,0.54
+115,tambakaji,0.03,0.82,0.06,0.09,inadequate,0.82,0.42,0.23,0.02,0.34,stigma rendah,0.42,0.20,0.06,0.38,0.35,cukup,0.38
+116,bringin,0.04,0.87,0.00,0.09,inadequate,0.87,0.40,0.26,0.11,0.23,stigma rendah,0.40,0.15,0.04,0.64,0.17,cukup,0.64
+117,ngaliyan,0.00,1.00,0.00,0.00,inadequate,1.00,0.23,0.04,0.00,0.73,tidak stigma,0.73,0.00,0.00,0.65,0.35,cukup,0.65
+118,sambirejo,0.00,1.00,0.00,0.00,inadequate,1.00,0.22,0.07,0.04,0.67,tidak stigma,0.67,0.00,0.00,0.48,0.52,kurang,0.52
+119,tandang,0.00,1.00,0.00,0.00,inadequate,1.00,0.32,0.06,0.00,0.62,tidak stigma,0.62,0.00,0.00,0.59,0.41,cukup,0.59
+120,pleburan,0.00,1.00,0.00,0.00,inadequate,1.00,0.30,0.07,0.00,0.63,tidak stigma,0.63,0.00,0.00,0.59,0.41,cukup,0.59
+121,karangturi,0.00,0.98,0.03,0.00,inadequate,0.98,0.33,0.13,0.10,0.45,tidak stigma,0.45,0.20,0.03,0.55,0.23,cukup,0.55
+122,sawahbesar,0.00,0.96,0.04,0.00,inadequate,0.96,0.18,0.11,0.00,0.71,tidak stigma,0.71,0.11,0.00,0.50,0.39,cukup,0.50
+123,lamper lor,0.00,1.00,0.00,0.00,inadequate,1.00,0.32,0.07,0.00,0.61,tidak stigma,0.61,0.00,0.00,0.50,0.50,cukup,0.50
+124,penggaron lor,0.00,1.00,0.00,0.00,inadequate,1.00,0.17,0.05,0.00,0.79,tidak stigma,0.79,0.00,0.00,0.52,0.48,cukup,0.52
+125,peterongan,0.00,0.86,0.07,0.07,inadequate,0.86,0.24,0.10,0.14,0.52,tidak stigma,0.52,0.03,0.00,0.45,0.52,kurang,0.52
+126,pudakpayung,0.00,0.96,0.00,0.04,inadequate,0.96,0.36,0.07,0.04,0.54,tidak stigma,0.54,0.07,0.00,0.61,0.32,cukup,0.61
+127,tinjomoyo,0.00,1.00,0.00,0.00,inadequate,1.00,0.40,0.05,0.00,0.55,tidak stigma,0.55,0.00,0.00,0.45,0.55,kurang,0.55
+128,kedungpani,0.00,1.00,0.00,0.00,inadequate,1.00,0.10,0.00,0.00,0.90,tidak stigma,0.90,0.00,0.00,0.60,0.40,cukup,0.60
+129,jatirejo,0.00,1.00,0.00,0.00,inadequate,1.00,0.71,0.00,0.00,0.29,stigma rendah,0.71,0.00,0.00,0.57,0.43,cukup,0.57
+130,wonosari,0.00,1.00,0.00,0.00,inadequate,1.00,0.31,0.04,0.00,0.65,tidak stigma,0.65,0.00,0.00,0.50,0.50,cukup,0.50
+131,tambakrejo,0.00,1.00,0.00,0.00,inadequate,1.00,0.36,0.03,0.00,0.61,tidak stigma,0.61,0.03,0.00,0.55,0.42,cukup,0.55
+132,karanganyar,0.06,0.78,0.00,0.17,inadequate,0.78,0.39,0.11,0.06,0.44,tidak stigma,0.44,0.22,0.22,0.17,0.39,kurang,0.39
+133,karangmalang,0.00,1.00,0.00,0.00,inadequate,1.00,0.30,0.05,0.00,0.65,tidak stigma,0.65,0.00,0.00,0.60,0.40,cukup,0.60
+134,purwoyoso,0.03,0.87,0.03,0.08,inadequate,0.87,0.36,0.13,0.03,0.49,tidak stigma,0.49,0.18,0.00,0.41,0.41,cukup,0.41
+135,kalipancur,0.08,0.88,0.00,0.03,inadequate,0.88,0.31,0.17,0.12,0.41,tidak stigma,0.41,0.46,0.03,0.29,0.22,baik,0.46
+136,karang rejo,0.00,0.97,0.03,0.00,inadequate,0.97,0.26,0.14,0.06,0.54,tidak stigma,0.54,0.03,0.00,0.60,0.37,cukup,0.60
+137,kaligawe,0.00,1.00,0.00,0.00,inadequate,1.00,0.27,0.05,0.00,0.68,tidak stigma,0.68,0.00,0.00,0.62,0.38,cukup,0.62
+138,pendrikan lor,0.00,1.00,0.00,0.00,inadequate,1.00,0.38,0.06,0.00,0.56,tidak stigma,0.56,0.00,0.00,0.44,0.56,kurang,0.56
+139,karangtempel,0.00,1.00,0.00,0.00,inadequate,1.00,0.20,0.10,0.00,0.70,tidak stigma,0.70,0.00,0.00,0.63,0.37,cukup,0.63
+140,jangli,0.00,1.00,0.00,0.00,inadequate,1.00,0.36,0.03,0.00,0.61,tidak stigma,0.61,0.00,0.00,0.54,0.46,cukup,0.54
+141,pandean lamper,0.00,0.97,0.03,0.00,inadequate,0.97,0.23,0.06,0.00,0.71,tidak stigma,0.71,0.00,0.00,0.43,0.57,kurang,0.57
+142,randusari,0.00,0.97,0.03,0.00,inadequate,0.97,0.38,0.00,0.05,0.57,tidak stigma,0.57,0.05,0.00,0.54,0.41,cukup,0.54
+143,bulu lor,0.00,1.00,0.00,0.00,inadequate,1.00,0.28,0.08,0.08,0.58,tidak stigma,0.58,0.08,0.00,0.53,0.40,cukup,0.53
+144,jerakah,0.00,0.67,0.00,0.33,inadequate,0.67,0.67,0.00,0.00,0.33,stigma rendah,0.67,0.00,0.00,0.00,1.00,kurang,1.00
+145,sukorejo,0.00,1.00,0.00,0.00,inadequate,1.00,0.25,0.13,0.06,0.56,tidak stigma,0.56,0.06,0.00,0.63,0.31,cukup,0.63
+146,barusari,0.00,1.00,0.00,0.00,inadequate,1.00,0.30,0.10,0.00,0.60,tidak stigma,0.60,0.00,0.00,0.75,0.25,cukup,0.75
+147,jomblang,0.04,0.96,0.00,0.00,inadequate,0.96,0.32,0.11,0.04,0.54,tidak stigma,0.54,0.07,0.00,0.50,0.43,cukup,0.50
+148,gayamsari,0.00,1.00,0.00,0.00,inadequate,1.00,0.30,0.08,0.00,0.63,tidak stigma,0.63,0.00,0.00,0.50,0.50,cukup,0.50
+149,lamper tengah,0.00,0.92,0.06,0.03,inadequate,0.92,0.33,0.11,0.03,0.53,tidak stigma,0.53,0.03,0.00,0.58,0.39,cukup,0.58
+150,tegalsari,0.00,1.00,0.00,0.00,inadequate,1.00,0.20,0.02,0.00,0.78,tidak stigma,0.78,0.00,0.00,0.62,0.38,cukup,0.62
+151,mangkang wetan,0.00,1.00,0.00,0.00,inadequate,1.00,0.00,0.75,0.25,0.00,stigma sedang,0.75,0.00,0.25,0.25,0.50,kurang,0.50
+152,randu garut,0.00,0.67,0.08,0.25,inadequate,0.67,0.25,0.42,0.00,0.33,stigma sedang,0.42,0.00,0.00,0.17,0.83,kurang,0.83
+153,tugurejo,0.05,0.83,0.03,0.10,inadequate,0.83,0.43,0.28,0.05,0.25,stigma rendah,0.43,0.20,0.08,0.35,0.38,kurang,0.38
+154,mangkang kulon,0.00,1.00,0.00,0.00,inadequate,1.00,0.33,0.67,0.00,0.00,stigma sedang,0.67,0.00,0.00,0.00,1.00,kurang,1.00
+155,mangunharjo,0.00,1.00,0.00,0.00,inadequate,1.00,0.16,0.20,0.05,0.59,tidak stigma,0.59,0.02,0.02,0.50,0.45,cukup,0.50
+156,bambankerep,0.05,0.90,0.00,0.05,inadequate,0.90,0.30,0.00,0.00,0.70,tidak stigma,0.70,0.05,0.00,0.60,0.35,cukup,0.60
+157,kramas,0.00,1.00,0.00,0.00,inadequate,1.00,0.32,0.06,0.02,0.60,tidak stigma,0.60,0.02,0.00,0.68,0.30,cukup,0.68
+158,jabungan,0.00,1.00,0.00,0.00,inadequate,1.00,0.30,0.07,0.00,0.63,tidak stigma,0.63,0.00,0.00,0.48,0.52,kurang,0.52
+159,rowosari,0.00,1.00,0.00,0.00,inadequate,1.00,0.25,0.06,0.00,0.70,tidak stigma,0.70,0.00,0.00,0.58,0.42,cukup,0.58
+160,plamongan sari,0.00,1.00,0.00,0.00,inadequate,1.00,0.32,0.03,0.00,0.65,tidak stigma,0.65,0.00,0.00,0.42,0.58,kurang,0.58
+161,ngesrep,0.00,0.98,0.00,0.02,inadequate,0.98,0.34,0.04,0.02,0.60,tidak stigma,0.60,0.04,0.00,0.57,0.38,cukup,0.57
+162,jatingaleh,0.00,1.00,0.00,0.00,inadequate,1.00,0.34,0.11,0.00,0.55,tidak stigma,0.55,0.00,0.00,0.47,0.53,kurang,0.53
+163,kaliwiru,0.00,1.00,0.00,0.00,inadequate,1.00,0.47,0.03,0.00,0.50,tidak stigma,0.50,0.00,0.00,0.74,0.26,cukup,0.74
+164,wonotingal,0.00,0.97,0.03,0.00,inadequate,0.97,0.24,0.09,0.00,0.68,tidak stigma,0.68,0.00,0.00,0.71,0.29,cukup,0.71
+165,lempongsari,0.00,1.00,0.00,0.00,inadequate,1.00,0.28,0.06,0.00,0.67,tidak stigma,0.67,0.00,0.00,0.56,0.44,cukup,0.56
+166,candi,0.00,1.00,0.00,0.00,inadequate,1.00,0.37,0.11,0.00,0.52,tidak stigma,0.52,0.00,0.00,0.44,0.56,kurang,0.56
+167,lamper kidul,0.00,1.00,0.00,0.00,inadequate,1.00,0.13,0.00,0.04,0.83,tidak stigma,0.83,0.00,0.00,0.54,0.46,cukup,0.54
+168,kedungmundu,0.00,1.00,0.00,0.00,inadequate,1.00,0.30,0.11,0.02,0.57,tidak stigma,0.57,0.00,0.00,0.50,0.50,cukup,0.50
+169,sendangguwo,0.00,1.00,0.00,0.00,inadequate,1.00,0.23,0.07,0.00,0.70,tidak stigma,0.70,0.02,0.00,0.54,0.45,cukup,0.54
+170,mugassari,0.00,1.00,0.00,0.00,inadequate,1.00,0.25,0.00,0.00,0.75,tidak stigma,0.75,0.00,0.00,0.60,0.40,cukup,0.60
+171,siwalan,0.02,0.98,0.00,0.00,inadequate,0.98,0.24,0.10,0.00,0.66,tidak stigma,0.66,0.05,0.00,0.49,0.46,cukup,0.49
+172,muktiharjo kidul,0.05,0.82,0.03,0.10,inadequate,0.82,0.37,0.05,0.08,0.50,tidak stigma,0.50,0.05,0.00,0.53,0.42,cukup,0.53
+173,kudu,0.00,0.96,0.04,0.00,inadequate,0.96,0.22,0.04,0.00,0.74,tidak stigma,0.74,0.00,0.00,0.57,0.43,cukup,0.57
+174,karangroto,0.00,0.98,0.02,0.00,inadequate,0.98,0.18,0.09,0.02,0.71,tidak stigma,0.71,0.02,0.00,0.53,0.44,cukup,0.53
+175,tanjungmas,0.03,0.86,0.08,0.03,inadequate,0.86,0.53,0.11,0.06,0.30,stigma rendah,0.53,0.14,0.03,0.63,0.20,cukup,0.63
+176,dadapsari,0.00,0.91,0.09,0.00,inadequate,0.91,0.34,0.15,0.00,0.51,tidak stigma,0.51,0.02,0.00,0.49,0.49,cukup,0.49
+177,sumurejo,0.00,1.00,0.00,0.00,inadequate,1.00,0.33,0.00,0.00,0.67,tidak stigma,0.67,0.00,0.00,0.56,0.44,cukup,0.56
