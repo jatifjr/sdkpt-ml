@@ -1,52 +1,43 @@
-# Python-specific
-*.pyc
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyo
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+/dist/
+/build/
 *.egg-info/
-dist/
-build/
-
-# Virtual Environment
-venv/
-env/
 .venv/
-.virtualenv/
+pip-wheel-metadata/
+.env/
 
-# IDE/Editor-specific
-.vscode/
-.idea/
+# Poetry
+.poetry/
+poetry.lock
 
-# Dependency Directories
-lib/
-libs/
-lib64/
-include/
-bin/
-share/
-locales/
+# Virtual environments
+.venv/
+venv/
+ENV/
 
-# Logs and Databases
-*.log
-*.sqlite
-db.sqlite3
+# Jupyter Notebook
+.ipynb_checkpoints
 
-# Compiled Python files
-*.pyc
+# IDEs and editors
+/.vscode/
+/.idea/
+*.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
 
-# Ignore local development settings (if you use Django, Flask, etc.)
-*.env
-
-# Ignore Python bytecode (generated files)
-__pycache__/
-
-# Ignore Jupyter Notebook checkpoints
-.ipynb_checkpoints/
-
-# Ignore macOS system files
+# OS or cloud specific files
 .DS_Store
 
-# Ignore Python package management files
-pip-lock.txt
-
-# folder
-sitb
+# Environment variables
+.env
