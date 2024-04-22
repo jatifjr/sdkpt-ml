@@ -1,51 +1,73 @@
-# Project Name README
+# SDKPT ML
 
-Welcome to Project Name! This README will guide you through setting up the project environment.
+This repository contains the SDKPT ML API project.
 
-## Installation
+## Setup Instructions
 
-1. **Install Python:**
+### 1. Set Up Virtual Environment
 
-   - If Python is not already installed, download and install it from [python.org](https://www.python.org/).
-   - Make sure to add Python to your system's PATH during installation.
+#### Linux / MacOS:
 
-2. **Install Poetry:**
+```bash
+python3 -m venv .venv
+```
 
-   - Poetry is a dependency management tool for Python. Install it by running the following command in your terminal or command prompt:
-     ```bash
-     curl -sSL https://install.python-poetry.org | python -
-     ```
-     or, on Windows:
-     ```bash
-     (Invoke-WebRequest -Uri https://install.python-poetry.org | Invoke-Expression)
-     ```
+#### Windows:
 
-3. **Install Dependencies:**
+```bash
+python -m venv .venv
+```
 
-   - Once Poetry is installed, navigate to the project directory and run:
-     ```bash
-     poetry install
-     ```
-   - This command will install all project dependencies defined in the `pyproject.toml` file.
+### 2. Activate the Virtual Environment
 
-4. **Set Environment Variables:**
+#### Linux / MacOS:
 
-   - Copy the `.env.example` file to `.env` and set the necessary environment variables required for your project.
-   - Make sure to populate any placeholders with actual values.
+```bash
+source .venv/bin/activate
+```
 
-5. **Database Migration with Alembic:**
-   - Alembic is a database migration tool for SQLAlchemy. Run the following command to initialize Alembic in your project:
-     ```bash
-     poetry run alembic init alembic
-     ```
-   - This command will create an `alembic` directory in your project.
-   - Next, edit the `alembic.ini` file and set the appropriate database connection string under `[alembic] > sqlalchemy.url`.
-   - Once configured, you can generate a migration script based on changes to your database models. For example:
-     ```bash
-     poetry run alembic revision --autogenerate -m "initial migration"
-     ```
-   - This will create a new migration script in the `alembic/versions` directory.
-   - Finally, to apply the migration and update your database, run:
-     ```bash
-     poetry run alembic upgrade head
-     ```
+#### Windows:
+
+```bash
+.venv\Scripts\activate
+```
+
+### 3. Install Required Packages
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Deactivate and Reactivate the Virtual Environment
+
+#### Linux / MacOS:
+
+```bash
+deactivate
+source .venv/bin/activate
+```
+
+#### Windows:
+
+```bash
+deactivate
+.venv\Scripts\activate
+```
+
+### 5. Create Environment Variables File
+
+Create a `.env` file and populate it with the required environment variables. You can use the provided `.env.example` file as a template.
+
+### 6. Run Alembic Migration
+
+```bash
+alembic upgrade heads
+```
+
+### 7. Run the FastAPI App
+
+```bash
+uvicorn app.main:app --reload --port 8000
+```
+
+Now you're all set up and ready to use the SDKPT ML API!
