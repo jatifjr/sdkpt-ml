@@ -10,22 +10,5 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
-    environment:
-      DOMAIN: localhost
-      ENVIRONMENT: local
-      PROJECT_NAME: "SDKPT ML API"
-      PROJECT_DESCRIPTION: "SDKPT API using FASTAPI"
-      STACK_NAME: sdkpt-ml
-      BACKEND_CORS_ORIGINS: "http://localhost,http://localhost:3000,https://localhost,https://localhost:3000"
-      SECRET_KEY: sdkptsecretkey
-
-  mysql:
-    image: mysql:latest
-    container_name: sdkpt-mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: SDKPTSemarang-2023
-      MYSQL_DATABASE: sdkpt
-      MYSQL_USER: sdkpt
-      MYSQL_PASSWORD: SDKPTSemarang-2023
-    ports:
-      - "3306:3306"
+    env_file:
+      - .env
