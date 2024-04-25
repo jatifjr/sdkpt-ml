@@ -12,5 +12,13 @@ class CRUDSurvey(CRUDBase[Survey, SurveyCreate, SurveyUpdate]):
     ) -> List[Survey]:
         return db.query(self.model).offset(skip).limit(limit).all()
 
+    def create_bulk(
+        self, db: Session, objs_in: List[SurveyCreate]
+    ) -> List[Survey]:
+        surveys = [self.model(**obj.dict()) for obj in objs_in]
+        db.add_all(surveys)
+        db.commit()
+        return surveys
+
 
 survey = CRUDSurvey(Survey)

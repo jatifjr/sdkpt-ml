@@ -41,6 +41,14 @@ def create_survey(
     return survey_crud.create(db=db, obj_in=survey_in)
 
 
+@router.post("/bulk", response_model=List[survey_schemas.Survey])
+def create_bulk_surveys(
+    surveys_in: List[survey_schemas.SurveyCreate],
+    db: Session = Depends(deps.get_db)
+):
+    return survey_crud.create_bulk(db=db, objs_in=surveys_in)
+
+
 # @router.put("/{survey_id}", response_model=survey_schemas.Survey)
 # def update_survey(
 #     survey_id: int,
