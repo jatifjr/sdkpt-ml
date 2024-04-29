@@ -1,15 +1,20 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime
-from sqlalchemy.sql import func
+from datetime import datetime
+from calendar import month_name
+
+from sqlalchemy import Column, Integer, String, Float, DateTime, func
 
 from app.db.base_class import Base
 
 
 class Survey(Base):
-    __tablename__ = "surveys"
+    __tablename__ = "survey"
 
     id = Column(Integer, primary_key=True, index=True)
     created_at = Column(DateTime, default=func.now(),
                         index=True, nullable=False)
+    # Change String to Integer
+    bulan = Column(Integer, index=True, nullable=False)
+    tahun = Column(Integer, index=True, nullable=False)
     kelurahan_id = Column(Integer, index=True, nullable=False)
     kelurahan_name = Column(String(255), index=True, nullable=False)
     population_density = Column(Integer)
@@ -62,3 +67,18 @@ class Survey(Base):
     kategori_stigma_sedang = Column(Integer)
     kategori_stigma_rendah = Column(Integer)
     kategori_stigma_tidak = Column(Integer)
+
+    def __init__(self, **kwargs):
+        bulan = kwargs.get('bulan')
+        if bulan:
+            self.bulan = bulan
+        else:
+            self.bulan = datetime.now().month  # Change to integer
+
+        tahun = kwargs.get('tahun')
+        if tahun is not None:
+            self.tahun = tahun
+        else:
+            self.tahun = datetime.now().year
+
+        super().__init__(**kwargs)

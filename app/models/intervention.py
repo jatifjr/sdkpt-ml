@@ -1,10 +1,10 @@
-from sqlalchemy import Column, Integer, String, Text, JSON
+from sqlalchemy import Column, Integer, String, Text
 
 from app.db.base_class import Base
 
 
 class Intervention(Base):
-    __tablename__ = "interventions"
+    __tablename__ = "intervention"
 
     id = Column(Integer, primary_key=True, index=True)
     kelurahan_name = Column(String(255), index=True, nullable=False)
