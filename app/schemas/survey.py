@@ -64,8 +64,8 @@ class SurveyBase(BaseModel):
 class SurveyCreate(BaseModel):
     kelurahan_id: int = Field(None, alias='ID Kelurahan')
     kelurahan_name: str = Field(None, alias='KECAMATAN')
-    bulan: Optional[int]
-    tahun: Optional[int]
+    bulan: Optional[int] = Field(None, alias='Bulan')
+    tahun: Optional[int] = Field(None, alias='Tahun')
     population_density: Optional[int] = Field(None, alias='Kepadatan Penduduk')
     population: Optional[int] = Field(None, alias='Jumlah Penduduk')
     tb_cases: Optional[int] = Field(None, alias='Jumlah Kasus TB')
