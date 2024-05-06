@@ -41,3 +41,6 @@ ENV/
 
 # Environment variables
 .env
+
+# Folder
+app/ml/

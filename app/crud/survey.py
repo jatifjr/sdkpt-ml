@@ -36,6 +36,7 @@ class CRUDSurvey(CRUDBase[Survey, SurveyCreate, SurveyUpdate]):
         survey_items = []
         for survey in surveys:
             survey_item = SurveyItem(
+                id=survey.id,
                 created_at=survey.created_at,
                 tahun=survey.tahun,
                 bulan=month_name[survey.bulan],
