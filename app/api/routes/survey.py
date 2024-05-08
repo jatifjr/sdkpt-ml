@@ -25,6 +25,8 @@ def read_surveys(
 
     kelurahan_name = survey_crud.get_kelurahan_name_by_id(db, kelurahan_id)
 
+    surveys.sort(key=lambda x: (x.tahun, x.bulan))
+
     survey_items = survey_crud.transform_to_survey_items(surveys)
 
     survey_data = survey_schemas.SurveyData(
@@ -40,6 +42,18 @@ def read_surveys(
     )
 
     return response
+
+
+@router.get("/latest", response_model=List[survey_schemas.SurveyLatest])
+def get_all_latest_surveys(
+    db: Session = Depends(deps.get_db)
+):
+    latest_surveys = survey_crud.get_latest_surveys(db)
+
+    if not latest_surveys:
+        raise HTTPException(status_code=404, detail="No surveys found")
+
+    return latest_surveys
 
 
 @router.post("/", response_model=survey_schemas.Survey)
