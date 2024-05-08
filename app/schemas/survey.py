@@ -151,6 +151,13 @@ class SurveyCreate(BaseModel):
     kategori_stigma_tidak: Optional[int] = Field(
         None, alias='Kategori Stigma_Tidak Stigma')
 
+    def set_default_month_year(self):
+        now = datetime.now()
+        if self.bulan == 0 or self.bulan is None:
+            self.bulan = now.month
+        if self.tahun == 0 or self.tahun is None:
+            self.tahun = now.year
+
 
 class SurveyUpdate(SurveyBase):
     pass
@@ -239,3 +246,10 @@ class SurveyResponse(BaseModel):
     status: str
     message: str
     data: Optional[SurveyData] = None
+
+
+class SurveyLatest(BaseModel):
+    kelurahan_id: Optional[int] = None
+    kelurahan_name: Optional[str] = None
+    bulan: Optional[int] = None
+    tahun: Optional[int] = None

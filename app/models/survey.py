@@ -70,15 +70,21 @@ class Survey(Base):
 
     def __init__(self, **kwargs):
         bulan = kwargs.get('bulan')
-        if bulan:
+        if bulan is not None and bulan != 0:
             self.bulan = bulan
         else:
-            self.bulan = datetime.now().month  # Change to integer
+            created_at_month = kwargs.get('created_at').month if kwargs.get(
+                'created_at') else datetime.now().month
+            # print("DEBUG - Created at month:", created_at_month)
+            self.bulan = created_at_month
 
         tahun = kwargs.get('tahun')
-        if tahun is not None:
+        if tahun is not None and tahun != 0:
             self.tahun = tahun
         else:
-            self.tahun = datetime.now().year
+            created_at_year = kwargs.get('created_at').year if kwargs.get(
+                'created_at') else datetime.now().year
+            # print("DEBUG - Created at year:", created_at_year)
+            self.tahun = created_at_year
 
         super().__init__(**kwargs)
