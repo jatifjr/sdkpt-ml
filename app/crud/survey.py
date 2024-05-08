@@ -1,9 +1,11 @@
 from typing import List
-from sqlalchemy.orm import Session
+from datetime import datetime
+from sqlalchemy import func, desc, distinct, and_
+from sqlalchemy.orm import Session, aliased
 from calendar import month_name
 
 from app.models.survey import Survey
-from app.schemas.survey import SurveyCreate, SurveyUpdate, SurveyItem
+from app.schemas.survey import SurveyCreate, SurveyUpdate, SurveyItem, SurveyLatest
 from .base import CRUDBase
 
 
@@ -22,11 +24,13 @@ class CRUDSurvey(CRUDBase[Survey, SurveyCreate, SurveyUpdate]):
             return None
         return survey.kelurahan_name
 
-    def create_bulk(
-        self, db: Session, objs_in: List[SurveyCreate]
-    ) -> List[Survey]:
-        surveys = [self.model(**obj.dict()) for obj in objs_in]
-        db.add_all(surveys)
+    def create_bulk(self, db: Session, objs_in: List[SurveyCreate]) -> List[Survey]:
+        surveys = []
+        for obj_in in objs_in:
+            obj_in.set_default_month_year()  # Set default month and year if necessary
+            survey = Survey(**obj_in.dict())
+            db.add(survey)
+            surveys.append(survey)
         db.commit()
         return surveys
 
@@ -93,6 +97,47 @@ class CRUDSurvey(CRUDBase[Survey, SurveyCreate, SurveyUpdate]):
             )
             survey_items.append(survey_item)
         return survey_items
+
+    def get_latest_surveys(
+        self, db: Session
+    ) -> List[SurveyLatest]:
+        subquery = (
+            db.query(
+                self.model.kelurahan_id,
+                func.row_number().over(
+                    partition_by=self.model.kelurahan_id,
+                    # Order by tahun and bulan
+                    order_by=[self.model.tahun.desc(), self.model.bulan.desc()]
+                ).label("row_number"),
+                self.model.kelurahan_name,
+                self.model.bulan,
+                self.model.tahun
+            )
+            .subquery()
+        )
+
+        latest_surveys = (
+            db.query(subquery.c.kelurahan_id,
+                     subquery.c.kelurahan_name,
+                     subquery.c.bulan,
+                     subquery.c.tahun)
+            # Select only the rows with the highest rank (i.e., the latest survey)
+            .filter(subquery.c.row_number == 1)
+            .order_by(subquery.c.kelurahan_id.asc())  # Order by kelurahan_id
+            .all()
+        )
+
+        survey_latest_list = []
+        for survey in latest_surveys:
+            survey_latest = SurveyLatest(
+                kelurahan_id=survey.kelurahan_id,
+                kelurahan_name=survey.kelurahan_name,
+                bulan=survey.bulan,
+                tahun=survey.tahun
+            )
+            survey_latest_list.append(survey_latest)
+
+        return survey_latest_list
 
 
 survey = CRUDSurvey(Survey)
