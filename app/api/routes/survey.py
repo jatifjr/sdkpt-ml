@@ -44,7 +44,7 @@ def read_surveys(
     return response
 
 
-@router.get("/latest", response_model=List[survey_schemas.SurveyLatest])
+@router.get("/all/latest", response_model=List[survey_schemas.SurveyLatest])
 def get_all_latest_surveys(
     db: Session = Depends(deps.get_db)
 ):

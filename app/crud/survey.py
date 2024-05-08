@@ -129,10 +129,11 @@ class CRUDSurvey(CRUDBase[Survey, SurveyCreate, SurveyUpdate]):
 
         survey_latest_list = []
         for survey in latest_surveys:
+            bulan_name = month_name[survey.bulan]
             survey_latest = SurveyLatest(
                 kelurahan_id=survey.kelurahan_id,
                 kelurahan_name=survey.kelurahan_name,
-                bulan=survey.bulan,
+                bulan=bulan_name,
                 tahun=survey.tahun
             )
             survey_latest_list.append(survey_latest)

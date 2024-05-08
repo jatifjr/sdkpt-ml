@@ -251,5 +251,5 @@ class SurveyResponse(BaseModel):
 class SurveyLatest(BaseModel):
     kelurahan_id: Optional[int] = None
     kelurahan_name: Optional[str] = None
-    bulan: Optional[int] = None
+    bulan: Optional[str] = None
     tahun: Optional[int] = None
