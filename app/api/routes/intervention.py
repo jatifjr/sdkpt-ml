@@ -15,6 +15,8 @@ def read_interventions(
     db: Session = Depends(deps.get_db), skip: int = 0, limit: int = 10
 ):
     interventions = intervention_crud.get_multi(db, skip=skip, limit=limit)
+    if not interventions:
+        raise HTTPException(status_code=404, detail="Interventions not found")
     return [schemas.InterventionResponse.from_db(intervention) for intervention in interventions]
 
 

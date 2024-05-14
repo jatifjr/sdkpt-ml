@@ -1,6 +1,7 @@
 from typing import Any, Dict, List, Union, Optional, Type
 
 from fastapi import HTTPException
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.db.base_class import Base
@@ -28,6 +29,21 @@ class CRUDPatient(CRUDBase[Patient, PatientCreate, PatientResponse]):
         patients = db.query(Patient).filter(
             Patient.kelurahan_domisili == kode_kd).offset(skip).limit(limit).all()
         return patients
+
+    def get_case_count_by_kelurahan_id(self, db: Session, kelurahan_id: int) -> int:
+        # Fetch the kelurahan with the given id
+        kelurahan = db.query(Kelurahan).filter(
+            Kelurahan.id == kelurahan_id).first()
+        if not kelurahan:
+            return 0
+
+        # Get the kode_kd from the kelurahan
+        kode_kd = kelurahan.kode_kd
+
+        # Fetch the count of cases with matching kelurahan_domisili
+        case_count = db.query(func.count()).filter(
+            Patient.kelurahan_domisili == kode_kd).scalar()
+        return case_count
 
 
 patient = CRUDPatient(Patient)
