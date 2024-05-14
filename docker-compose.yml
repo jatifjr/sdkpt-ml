@@ -3,7 +3,7 @@ version: "3.8"
 services:
   db:
     image: mariadb:latest
-    container_name: mariadb
+    container_name: sdkpt-ml-db
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DB}
@@ -20,7 +20,7 @@ services:
     build:
       context: .
       dockerfile: dockerfile
-    container_name: fastapi-backend
+    container_name: sdkpt-ml-api
     environment:
       DB_SERVER: db
       DB_PORT: 3306
