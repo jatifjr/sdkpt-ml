@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   db:
-    image: mariadb:latest
+    image: "jc21/mariadb-aria:latest"
     container_name: sdkpt-ml-db
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
