@@ -1,14 +1,42 @@
 version: "3.8"
 
 services:
-  sdkpt-ml:
-    container_name: sdkpt-ml
+  db:
+    image: mariadb:latest
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DB}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    networks:
+      - nginx_proxy_manager_default
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  backend:
     build:
       context: .
-      dockerfile: dev.dockerfile
+      dockerfile: dockerfile
+    container_name: fastapi-backend
+    environment:
+      DB_SERVER: db
+      DB_PORT: 3306
+      DB_DB: ${DB_DB}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
     ports:
       - "8000:8000"
-    volumes:
-      - .:/app
-    env_file:
-      - .env
+    depends_on:
+      - db
+    networks:
+      - nginx_proxy_manager_default
+
+networks:
+  nginx_proxy_manager_default:
+    external: true
+
+volumes:
+  mariadb_data:
