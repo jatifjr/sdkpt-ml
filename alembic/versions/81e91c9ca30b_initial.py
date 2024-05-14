@@ -1,8 +1,8 @@
-"""initial migration
+"""initial
 
-Revision ID: c5f87cd9a547
+Revision ID: 81e91c9ca30b
 Revises: 
-Create Date: 2024-04-29 19:02:25.341852
+Create Date: 2024-05-14 14:58:14.394136
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'c5f87cd9a547'
+revision: str = '81e91c9ca30b'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -57,25 +57,30 @@ def upgrade() -> None:
     op.create_index(op.f('ix_kecamatan_name'), 'kecamatan', ['name'], unique=False)
     op.create_table('kelurahan',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=255), nullable=False),
+    sa.Column('kode_kd', sa.String(length=255), nullable=True),
+    sa.Column('kelurahan_name', sa.String(length=255), nullable=False),
     sa.Column('puskesmas_id', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_kelurahan_id'), 'kelurahan', ['id'], unique=False)
-    op.create_index(op.f('ix_kelurahan_name'), 'kelurahan', ['name'], unique=False)
+    op.create_index(op.f('ix_kelurahan_kelurahan_name'), 'kelurahan', ['kelurahan_name'], unique=False)
     op.create_table('patient',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('kode_pasien', sa.String(length=255), nullable=False),
-    sa.Column('umur', sa.Integer(), nullable=True),
-    sa.Column('jenis_kelamin', sa.String(length=255), nullable=True),
-    sa.Column('kecamatan', sa.String(length=255), nullable=True),
-    sa.Column('kelurahan_id', sa.Integer(), nullable=True),
-    sa.Column('status_pekerjaan', sa.String(length=255), nullable=True),
-    sa.Column('fasyankes_id', sa.Integer(), nullable=True),
+    sa.Column('kelurahan_domisili', sa.String(length=255), nullable=True),
+    sa.Column('kode_fasyankes', sa.String(length=255), nullable=True),
+    sa.Column('tahun', sa.Integer(), nullable=True),
+    sa.Column('bulan', sa.Integer(), nullable=True),
+    sa.Column('tipe_diagnosis', sa.String(length=255), nullable=True),
+    sa.Column('anatomi_tb', sa.String(length=255), nullable=True),
+    sa.Column('riwayat_hiv', sa.String(length=255), nullable=True),
+    sa.Column('riwayat_dm', sa.String(length=255), nullable=True),
+    sa.Column('panduan_obat', sa.String(length=255), nullable=True),
+    sa.Column('sumber_obat', sa.String(length=255), nullable=True),
+    sa.Column('status_pengobatan', sa.String(length=255), nullable=True),
+    sa.Column('pengobatan_terakhir', sa.String(length=255), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_patient_id'), 'patient', ['id'], unique=False)
-    op.create_index(op.f('ix_patient_kode_pasien'), 'patient', ['kode_pasien'], unique=False)
     op.create_table('puskesmas',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('code', sa.String(length=255), nullable=False),
@@ -85,6 +90,13 @@ def upgrade() -> None:
     op.create_index(op.f('ix_puskesmas_code'), 'puskesmas', ['code'], unique=False)
     op.create_index(op.f('ix_puskesmas_id'), 'puskesmas', ['id'], unique=False)
     op.create_index(op.f('ix_puskesmas_name'), 'puskesmas', ['name'], unique=False)
+    op.create_table('semar_betul_auth',
+    sa.Column('id', sa.String(length=255), nullable=False),
+    sa.Column('access_token', sa.Text(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_semar_betul_auth_access_token'), 'semar_betul_auth', ['access_token'], unique=False)
+    op.create_index(op.f('ix_semar_betul_auth_id'), 'semar_betul_auth', ['id'], unique=False)
     op.create_table('survey',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
@@ -162,14 +174,16 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_survey_created_at'), table_name='survey')
     op.drop_index(op.f('ix_survey_bulan'), table_name='survey')
     op.drop_table('survey')
+    op.drop_index(op.f('ix_semar_betul_auth_id'), table_name='semar_betul_auth')
+    op.drop_index(op.f('ix_semar_betul_auth_access_token'), table_name='semar_betul_auth')
+    op.drop_table('semar_betul_auth')
     op.drop_index(op.f('ix_puskesmas_name'), table_name='puskesmas')
     op.drop_index(op.f('ix_puskesmas_id'), table_name='puskesmas')
     op.drop_index(op.f('ix_puskesmas_code'), table_name='puskesmas')
     op.drop_table('puskesmas')
-    op.drop_index(op.f('ix_patient_kode_pasien'), table_name='patient')
     op.drop_index(op.f('ix_patient_id'), table_name='patient')
     op.drop_table('patient')
-    op.drop_index(op.f('ix_kelurahan_name'), table_name='kelurahan')
+    op.drop_index(op.f('ix_kelurahan_kelurahan_name'), table_name='kelurahan')
     op.drop_index(op.f('ix_kelurahan_id'), table_name='kelurahan')
     op.drop_table('kelurahan')
     op.drop_index(op.f('ix_kecamatan_name'), table_name='kecamatan')

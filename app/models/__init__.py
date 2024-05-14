@@ -5,3 +5,4 @@ from .kelurahan import Kelurahan
 from .kecamatan import Kecamatan
 from .puskesmas import Puskesmas
 from .patient import Patient
+from .semar_betul_auth import SemarBetulAuth

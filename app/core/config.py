@@ -56,6 +56,10 @@ class Settings(BaseSettings):
     DB_PASSWORD: str
     DB_DB: str
 
+    SB_BASE_URL: str
+    SB_USERNAME: str
+    SB_PASSWORD: str
+
     @computed_field  # type: ignore[misc]
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> MySQLDsn:

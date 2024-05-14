@@ -7,5 +7,6 @@ class Kelurahan(Base):
     __tablename__ = "kelurahan"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(255), index=True, nullable=False)
+    kode_kd = Column(String(255))
+    kelurahan_name = Column(String(255), index=True, nullable=False)
     puskesmas_id = Column(Integer)
