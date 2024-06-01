@@ -7,7 +7,8 @@ from .routes import (
     prediction,
     vulnerability,
     semar_betul,
-    patient
+    patient,
+    upload_survey
 )
 
 api_router = APIRouter()
@@ -22,3 +23,5 @@ api_router.include_router(
     semar_betul.router, prefix="/semar-betul", tags=["semar_betul"])
 api_router.include_router(
     patient.router, prefix="/patients", tags=["patients"])
+api_router.include_router(upload_survey.router,
+                          prefix="/upload", tags=["upload survey"])
