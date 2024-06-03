@@ -2,6 +2,7 @@
 import pandas as pd
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from datetime import datetime
+import numpy as np
 
 
 class ForecastService:
@@ -75,16 +76,27 @@ class ForecastService:
         model_fit = model.fit(disp=False)
 
         # Generate a list of future months
-        start_date = data.index.min()
-        end_date = data.index.max()
+        start_date = pd.to_datetime('2018-01-01', format='%Y-%m-%d')
+        end_date = datetime.now().replace(day=1).date() - pd.DateOffset(months=12)
         future_months = pd.date_range(
-            start=start_date, periods=len(data) + 12, freq='M')
+            start=start_date, end=end_date, freq='M')
 
         # Predict values for the future months
-        future_predictions = model_fit.get_forecast(steps=len(future_months))
+        future_predictions = model_fit.get_forecast(
+            steps=len(future_months) - len(data))
+
+        # Concatenate historical and predicted data
+        combined_data = pd.concat(
+            [data['Value'], future_predictions.predicted_mean.rename('Value')])
+
+        # Round the predictions and convert to integers
+        combined_data = combined_data.round().astype(int)
+
+        # Clip values to ensure they are not below 0
+        combined_data = np.maximum(combined_data, 0)
 
         # Convert predicted data to a list of dictionaries with formatted date strings
-        predicted_data = [{"Month": self.format_month_year(date), "PredictedValue": predicted_value}
-                          for date, predicted_value in zip(future_months, future_predictions.predicted_mean)]
+        predicted_data = [{"Month": self.format_month_year(date), "PredictedValue": value}
+                          for date, value in combined_data.items()]
 
         return predicted_data
