@@ -1,3 +1,4 @@
+from app.models.patient import Patient  # Import the Patient model
 import pandas as pd
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from app.db.session import engine
@@ -12,6 +13,12 @@ from datetime import datetime
 logger = logging.getLogger(__name__)
 
 
+# app/services/prediction.py
+
+
+logger = logging.getLogger(__name__)
+
+
 class ForecastService:
     def __init__(self):
         # Fetch data from MySQL and prepare the dataset
@@ -20,11 +27,21 @@ class ForecastService:
         df = pd.read_sql(query, engine)
 
         # Filter out invalid 'tahun' and 'bulan' entries
+        # Drop rows with NaN in tahun or bulan
+        df = df.dropna(subset=['tahun', 'bulan'])
+        df['tahun'] = df['tahun'].astype(int)
+        df['bulan'] = df['bulan'].astype(int)
         df = df[(df['tahun'] > 0) & (df['bulan'] > 0)]
 
         # Convert 'tahun' and 'bulan' to datetime
-        df['date'] = pd.to_datetime(df['tahun'].astype(
-            str) + '-' + df['bulan'].astype(str) + '-01')
+        try:
+            df['date'] = pd.to_datetime(df['tahun'].astype(
+                str) + '-' + df['bulan'].astype(str) + '-01')
+        except Exception as e:
+            logger.error(
+                f"Error converting 'tahun' and 'bulan' to datetime: {str(e)}")
+            raise
+
         df.set_index('date', inplace=True)
         df.drop(columns=['tahun', 'bulan'], inplace=True)
 
@@ -113,7 +130,7 @@ class ForecastService:
 
         # Generate a list of future months
         start_date = data.index.max() + pd.DateOffset(months=1)
-        end_date = end_date = datetime.now().replace(
+        end_date = datetime.now().replace(
             day=1).date() + pd.DateOffset(months=12)
         future_months = pd.date_range(
             start=start_date, end=end_date, freq='M')
@@ -137,6 +154,9 @@ class ForecastService:
                           for date, value in combined_data.items()]
 
         return predicted_data
+
+    def format_month_year(self, date):
+        return date.strftime("%b %Y")
 
 
 forecast_service = ForecastService()

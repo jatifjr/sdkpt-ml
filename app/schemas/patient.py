@@ -39,3 +39,29 @@ class PatientResponse(PatientBase):
 
     class Config:
         from_attributes = True
+
+
+class PatientOutcomeCounts(BaseModel):
+    sembuh: int
+    gagal: int
+    meninggal: int
+
+
+class PatientCaseAndOutcomeCounts(BaseModel):
+    jumlah_kasus: int
+    sembuh: int
+    gagal: int
+    meninggal: int
+
+
+class TotalCasesAndOutcomesResponse(BaseModel):
+    jumlah_kasus: int
+    sembuh: int
+    gagal: int
+    meninggal: int
+
+
+class PatientCountAndOutcomesResponse(BaseModel):
+    kelurahan_id: int
+    jumlah_kasus: int
+    pengobatan_terakhir: PatientOutcomeCounts

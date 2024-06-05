@@ -53,34 +53,37 @@ router = APIRouter()
 #     return patient_data
 
 
-# # @router.post("/trigger-fetch-patient-data", response_model=List[PatientResponse])
-# # def trigger_fetch_patient_data(
-#     db: Session = Depends(deps.get_db),
-# ):
-#     base_url = settings.SB_BASE_URL
-#     username = settings.SB_USERNAME
-#     password = settings.SB_PASSWORD
+@router.post("/trigger-fetch-patient-data", response_model=List[PatientResponse])
+def trigger_fetch_patient_data(
+    db: Session = Depends(deps.get_db),
+):
+    base_url = settings.SB_BASE_URL
+    username = settings.SB_USERNAME
+    password = settings.SB_PASSWORD
 
-#     api_client = ApiClient(base_url, db)
-#     access_token = api_client.login(username, password)
-#     all_patient_data = []
+    api_client = ApiClient(base_url, db)
+    access_token = api_client.login(username, password)
+    all_patient_data = []
+    page = 845
 
-#     for i in range(681 , 845, 50):  # Adjust range as needed
-#         for page in range(i, i + 50):
-#             print(f"\033[93mDEBUG:\t\033[0mFetching page - {page}")
-#             patient_data = api_client.fetch_patient_data(access_token, page)
-#             if patient_data is None:
-#                 raise HTTPException(
-#                     status_code=500, detail=f"Failed to fetch patient data on page {page}")
-#             elif isinstance(patient_data, list) and patient_data:
-#                 all_patient_data.extend(patient_data)
-#             elif isinstance(patient_data, str):
-#                 break  # Stop if all patient data already exists
+    while True:
+        patient_data = api_client.fetch_patient_data(access_token, page)
 
-#             # Wait for 1.2 seconds between each request to limit to 50 requests per minute
-#             time.sleep(1.2)
+        if patient_data is None:
+            raise HTTPException(
+                status_code=500, detail=f"Failed to fetch patient data"
+            )
+        elif isinstance(patient_data, list) and patient_data:
+            all_patient_data.extend(patient_data)
+            page += 1
+        elif isinstance(patient_data, dict) and patient_data.get("status") == "OK":
+            break  # Stop if all patient data already fetched
 
-#         # Renew the access token after every 50 pages
-#         access_token = api_client.login(username, password)
+        # Wait for 1.2 seconds between each request to limit to 50 requests per minute
+        time.sleep(1.2)
 
-#     return all_patient_data
+        # Renew the access token after every 50 pages
+        if page % 50 == 0:
+            access_token = api_client.login(username, password)
+
+    return all_patient_data

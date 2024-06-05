@@ -41,22 +41,30 @@ class ApiClient:
 
         # Print X-RateLimit-Remaining debug message
         remaining_requests = response.headers.get('X-RateLimit-Remaining')
-        print(
-            f"\033[93mDEBUG:\t\033[0mRemaining requests - {remaining_requests}")
+        print(f"\033[93mDEBUG:\t\033[0mRemaining requests - {remaining_requests}")
 
         if response.status_code == 200:
             patient_data = response.json().get('data', [])
+
+            if not patient_data:
+                return {"detail": "All patient data already fetched.",
+                        "status": "OK"}
+
             patients_to_insert = []
+            duplicate_ids = []
+
             for patient_info in patient_data:
                 patient_id = patient_info.get('id')
                 existing_patient = self.db_session.query(
                     Patient).filter_by(id=patient_id).first()
-                if not existing_patient:
+                if existing_patient:
+                    # Patient already exists, skip insertion
+                    duplicate_ids.append(patient_id)
+                else:
                     # Patient doesn't exist, so create a new Patient object
                     new_patient = Patient(
                         id=patient_id,
-                        kelurahan_domisili=patient_info.get(
-                            'kelurahan_domisili'),
+                        kelurahan_domisili=patient_info.get('kelurahan_domisili'),
                         kode_fasyankes=patient_info.get('kode_fasyankes'),
                         tahun=patient_info.get('tahun'),
                         bulan=patient_info.get('bulan'),
@@ -66,18 +74,18 @@ class ApiClient:
                         riwayat_dm=patient_info.get('riwayat_dm'),
                         panduan_obat=patient_info.get('panduan_obat'),
                         sumber_obat=patient_info.get('sumber_obat'),
-                        status_pengobatan=patient_info.get(
-                            'status_pengobatan'),
-                        pengobatan_terakhir=patient_info.get(
-                            'pengobatan_terakhir')
+                        status_pengobatan=patient_info.get('status_pengobatan'),
+                        pengobatan_terakhir=patient_info.get('pengobatan_terakhir')
                     )
                     patients_to_insert.append(new_patient)
+
             if patients_to_insert:
                 self.db_session.add_all(patients_to_insert)
                 self.db_session.commit()
                 return patients_to_insert
             else:
-                return {"detail": "All patient data already exists in the database."}
+                return {"detail": "All patient data already exists in the database.",
+                        "duplicate_ids": duplicate_ids}
         else:
             print(f"Error fetching patient data: {response.status_code}")
             return None

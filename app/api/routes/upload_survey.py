@@ -1,8 +1,7 @@
 import os
-import logging
 from datetime import datetime
-
-from fastapi import APIRouter, UploadFile, File, HTTPException
+import pandas as pd
+from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 
 router = APIRouter()
 
@@ -14,19 +13,16 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(
 UPLOAD_DIR = os.path.join(PROJECT_ROOT, "uploads", "surveys")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-# Set up logging
-# logging.basicConfig(level=logging.DEBUG)
 
-
-@router.post('/')
+@router.post('/upload-survey')
 def upload_file(file: UploadFile = File(...)):
+    # Check if a file was uploaded
+    if not file:
+        raise HTTPException(
+            status_code=400, detail="No file uploaded. Please upload a file.")
+
     # Check the file extension
     if not file.filename.endswith('.xlsx'):
-        raise HTTPException(
-            status_code=400, detail="Invalid file type. Only .xlsx files are allowed.")
-
-    # Check the MIME type
-    if file.content_type != 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
         raise HTTPException(
             status_code=400, detail="Invalid file type. Only .xlsx files are allowed.")
 
@@ -35,22 +31,46 @@ def upload_file(file: UploadFile = File(...)):
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
         new_filename = f"survey_{timestamp}.xlsx"
         file_location = os.path.join(UPLOAD_DIR, new_filename)
-        # logging.debug(f"Saving file to: {file_location}")
 
+        # Save the file
         with open(file_location, "wb") as buffer:
             buffer.write(file.file.read())
 
-        # Return a JSON response
-        return {"message": "File uploaded successfully", "filename": file.filename}
+        return {"message": "File uploaded successfully", "file_location": file_location}
     except Exception as e:
-        # logging.error(f"Error uploading file: {e}")
         raise HTTPException(status_code=500, detail=str(e))
     finally:
         file.file.close()
 
 
-# # Example of listing uploaded files
-# uploaded_files = os.listdir(UPLOAD_DIR)
-# print(f"Uploaded files in {UPLOAD_DIR}:")
-# for file_name in uploaded_files:
-#     print(file_name)
+@router.get('/process-survey')
+def process_file(file_location: str):
+    try:
+        # Check if the file exists
+        if not os.path.exists(file_location):
+            raise HTTPException(status_code=404, detail="File not found.")
+
+        # Read the Excel file using Pandas
+        df = pd.read_excel(file_location)
+
+        # Replace infinite values with NaN
+        df.replace([float('inf'), float('-inf')], pd.NA, inplace=True)
+
+        # Drop rows that are not fully filled
+        df.dropna(inplace=True)
+
+        # Convert data types where appropriate
+        for col in df.columns:
+            if col not in ['Kecamatan', 'Kelurahan', 'rasio Pasien dan Jumlah Penduduk/10000', 'Prevalensi DM/1000', 'Rasio penduduk dengan Fasyankes']:
+                df[col] = pd.to_numeric(
+                    df[col], errors='coerce').astype('Int64')
+
+        # Fill remaining NaNs with None for JSON serialization
+        df.fillna(value=None, inplace=True)
+
+        # Convert DataFrame to JSON
+        data = df.to_dict(orient='records')
+
+        return {"data": data}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
