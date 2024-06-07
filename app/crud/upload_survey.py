@@ -1,17 +1,19 @@
 from typing import List, Optional
-from datetime import datetime
 from calendar import month_name
+from datetime import datetime
 from sqlalchemy import func, extract
 from sqlalchemy.orm import Session
-from app.models.upload_survey import UploadSurvey as Survey
-from app.schemas.upload_survey import SurveyRead, SurveyBase, SurveyLatest
+import pandas as pd
+
+from app.models.upload_survey import UploadSurvey
+from app.schemas.upload_survey import SurveyBase, SurveyLatest, SurveyCreate, SurveyData, SurveyResponse, SurveyItem
 from .base import CRUDBase
 
 
-class CRUDSurvey(CRUDBase[Survey, SurveyRead, SurveyBase]):
+class CRUDSurvey(CRUDBase[UploadSurvey, SurveyCreate, SurveyBase]):
     def get_by_kelurahan_id(
         self, db: Session, kelurahan_id: int, skip: int = 0, limit: int = 10
-    ) -> List[Survey]:
+    ) -> List[UploadSurvey]:
         return db.query(self.model).filter_by(kelurahan_id=kelurahan_id).offset(skip).limit(limit).all()
 
     def get_kelurahan_name_by_id(
@@ -23,23 +25,76 @@ class CRUDSurvey(CRUDBase[Survey, SurveyRead, SurveyBase]):
             return None
         return survey.kelurahan
 
-    def read(self, db: Session, survey_id: int) -> Optional[Survey]:
-        return db.query(self.model).filter(self.model.id == survey_id).first()
+    # def read(self, db: Session, survey_id: int) -> Optional[Survey]:
+    #     return db.query(self.model).filter(self.model.id == survey_id).first()
 
-    def create_bulk(self, db: Session, objs_in: List[SurveyBase]) -> List[Survey]:
+    def create_bulk(self, db: Session, objs_in: List[SurveyBase]) -> List[UploadSurvey]:
         surveys = []
         for obj_in in objs_in:
-            # Create an UploadSurvey object
-            survey = Survey(**obj_in.dict())
+            survey = UploadSurvey(**obj_in.dict())
             db.add(survey)
             surveys.append(survey)
         db.commit()
         return surveys
 
-    @staticmethod
-    def transform_to_survey_item(surveys: List[Survey]) -> List[SurveyBase]:
-        return [
-            SurveyBase(
+    def create_from_excel(self, db: Session, file_path: str) -> List[UploadSurvey]:
+        try:
+            df = pd.read_excel(file_path)
+            surveys = df.to_dict(orient="records")
+
+            survey_objects = [SurveyBase(**survey) for survey in surveys]
+
+            created_surveys = self.create_bulk(db, survey_objects)
+
+            return created_surveys
+
+        except Exception as e:
+            db.rollback()
+            raise e
+
+    def get_latest_surveys(self, db: Session) -> List[SurveyLatest]:
+        subquery = (
+            db.query(
+                self.model.kelurahan_id,
+                func.row_number().over(
+                    partition_by=self.model.kelurahan_id,
+                    order_by=[self.model.created_at.desc()]
+                ).label("row_number"),
+                self.model.kelurahan,
+                self.model.created_at
+            )
+            .subquery()
+        )
+
+        latest_surveys = (
+            db.query(
+                subquery.c.kelurahan_id,
+                subquery.c.kelurahan,
+                extract('month', subquery.c.created_at).label('bulan'),
+                extract('year', subquery.c.created_at).label('tahun')
+            )
+            .filter(subquery.c.row_number == 1)
+            .order_by(subquery.c.kelurahan_id.asc())
+            .all()
+        )
+
+        survey_latest_list = []
+        for survey in latest_surveys:
+            bulan_name = month_name[int(survey.bulan)]
+            survey_latest = SurveyLatest(
+                kelurahan_id=survey.kelurahan_id,
+                kelurahan_name=survey.kelurahan,
+                bulan=bulan_name,
+                tahun=survey.tahun
+            )
+            survey_latest_list.append(survey_latest)
+
+        return survey_latest_list
+
+    def transform_to_survey_item(self, surveys: List[UploadSurvey]) -> List[SurveyItem]:
+        survey_items = []
+        for survey in surveys:
+            survey_item = SurveyItem(
                 id=survey.id,
                 created_at=survey.created_at,
                 kelurahan_id=survey.kelurahan_id,
@@ -118,11 +173,32 @@ class CRUDSurvey(CRUDBase[Survey, SurveyRead, SurveyBase]):
                 keluarga_pendidikan_terakhir_tidak_tamat_sd=survey.keluarga_pendidikan_terakhir_tidak_tamat_sd,
                 keluarga_status_bekerja_bekerja=survey.keluarga_status_bekerja_bekerja,
                 keluarga_status_bekerja_tidak_bekerja=survey.keluarga_status_bekerja_tidak_bekerja,
-                keluarga_kategori_stigma_tidak_stigma=survey.keluarga_kategori_stigma_tidak_stigma,
+                keluarga_riwayat_tb_di_rumah_ada=survey.keluarga_riwayat_tb_di_rumah_ada,
+                keluarga_riwayat_tb_di_rumah_tidak_ada=survey.keluarga_riwayat_tb_di_rumah_tidak_ada,
+                keluarga_tpt_serumah_ada=survey.keluarga_tpt_serumah_ada,
+                keluarga_tpt_serumah_tidak_ada=survey.keluarga_tpt_serumah_tidak_ada,
+                keluarga_jenis_lantai_kayu=survey.keluarga_jenis_lantai_kayu,
+                keluarga_jenis_lantai_tanah=survey.keluarga_jenis_lantai_tanah,
+                keluarga_jenis_lantai_ubin_keramik_tegel=survey.keluarga_jenis_lantai_ubin_keramik_tegel,
+                keluarga_cahaya_matahari_masuk_tidak=survey.keluarga_cahaya_matahari_masuk_tidak,
+                keluarga_cahaya_matahari_masuk_ya=survey.keluarga_cahaya_matahari_masuk_ya,
+                keluarga_kategori_pengetahuan_baik=survey.keluarga_kategori_pengetahuan_baik,
+                keluarga_kategori_pengetahuan_buruk=survey.keluarga_kategori_pengetahuan_buruk,
+                keluarga_kategori_pengetahuan_cukup=survey.keluarga_kategori_pengetahuan_cukup,
+                keluarga_kategori_pengetahuan_kurang=survey.keluarga_kategori_pengetahuan_kurang,
+                keluarga_kategori_literasi_inadequate=survey.keluarga_kategori_literasi_inadequate,
+                keluarga_kategori_literasi_problematic=survey.keluarga_kategori_literasi_problematic,
+                keluarga_kategori_literasi_sufficient=survey.keluarga_kategori_literasi_sufficient,
+                keluarga_kategori_literasi_excellent=survey.keluarga_kategori_literasi_excellent,
                 keluarga_kategori_stigma_stigma_rendah=survey.keluarga_kategori_stigma_stigma_rendah,
                 keluarga_kategori_stigma_stigma_sangat_rendah=survey.keluarga_kategori_stigma_stigma_sangat_rendah,
                 keluarga_kategori_stigma_stigma_sedang=survey.keluarga_kategori_stigma_stigma_sedang,
                 keluarga_kategori_stigma_stigma_tinggi=survey.keluarga_kategori_stigma_stigma_tinggi,
+                keluarga_kategori_stigma_tidak_stigma=survey.keluarga_kategori_stigma_tidak_stigma,
+                keluarga_kategori_perilaku_baik=survey.keluarga_kategori_perilaku_baik,
+                keluarga_kategori_perilaku_cukup=survey.keluarga_kategori_perilaku_cukup,
+                keluarga_kategori_perilaku_kurang=survey.keluarga_kategori_perilaku_kurang,
+                keluarga_kategori_perilaku_sangat_kurang=survey.keluarga_kategori_perilaku_sangat_kurang,
                 masyarakat_pendidikan_terakhir_diploma=survey.masyarakat_pendidikan_terakhir_diploma,
                 masyarakat_pendidikan_terakhir_s1=survey.masyarakat_pendidikan_terakhir_s1,
                 masyarakat_pendidikan_terakhir_s2_s3=survey.masyarakat_pendidikan_terakhir_s2_s3,
@@ -163,51 +239,8 @@ class CRUDSurvey(CRUDBase[Survey, SurveyRead, SurveyBase]):
                 masyarakat_kategori_stigma_stigma_tinggi=survey.masyarakat_kategori_stigma_stigma_tinggi,
                 masyarakat_kategori_stigma_tidak_stigma=survey.masyarakat_kategori_stigma_tidak_stigma,
             )
-            for survey in surveys
-        ]
-
-    def get_latest_surveys(self, db: Session) -> List[SurveyLatest]:
-        # Create a subquery to rank surveys by kelurahan_id and created_at
-        subquery = (
-            db.query(
-                self.model.kelurahan_id,
-                func.row_number().over(
-                    partition_by=self.model.kelurahan_id,
-                    # Order by created_at year and month
-                    order_by=[self.model.created_at.desc()]
-                ).label("row_number"),
-                self.model.kelurahan,
-                self.model.created_at
-            )
-            .subquery()
-        )
-
-        # Query the latest surveys from the subquery
-        latest_surveys = (
-            db.query(
-                subquery.c.kelurahan_id,
-                subquery.c.kelurahan,
-                extract('month', subquery.c.created_at).label('bulan'),
-                extract('year', subquery.c.created_at).label('tahun')
-            )
-            .filter(subquery.c.row_number == 1)
-            .order_by(subquery.c.kelurahan_id.asc())  # Order by kelurahan_id
-            .all()
-        )
-
-        # Create a list of SurveyLatest objects
-        survey_latest_list = []
-        for survey in latest_surveys:
-            bulan_name = month_name[int(survey.bulan)]
-            survey_latest = SurveyLatest(
-                kelurahan_id=survey.kelurahan_id,
-                kelurahan_name=survey.kelurahan,
-                bulan=bulan_name,
-                tahun=survey.tahun
-            )
-            survey_latest_list.append(survey_latest)
-
-        return survey_latest_list
+            survey_items.append(survey_item)
+        return survey_items
 
 
-survey = CRUDSurvey(Survey)
+upload_survey = CRUDSurvey(UploadSurvey)

@@ -2,6 +2,9 @@ import os
 from datetime import datetime
 import pandas as pd
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
+from sqlalchemy.orm import Session
+from app.api import deps
+from app.crud.upload_survey import upload_survey as survey
 
 router = APIRouter()
 
@@ -15,7 +18,7 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
 @router.post('/upload-survey')
-def upload_file(file: UploadFile = File(...)):
+def upload_file(db: Session = Depends(deps.get_db), file: UploadFile = File(...)):
     # Check if a file was uploaded
     if not file:
         raise HTTPException(
@@ -36,41 +39,10 @@ def upload_file(file: UploadFile = File(...)):
         with open(file_location, "wb") as buffer:
             buffer.write(file.file.read())
 
-        return {"message": "File uploaded successfully", "file_location": file_location}
+        created_surveys = survey.create_from_excel(db, file_location)
+        return {"message": f"{len(created_surveys)} surveys created successfully"}
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     finally:
         file.file.close()
-
-
-@router.get('/process-survey')
-def process_file(file_location: str):
-    try:
-        # Check if the file exists
-        if not os.path.exists(file_location):
-            raise HTTPException(status_code=404, detail="File not found.")
-
-        # Read the Excel file using Pandas
-        df = pd.read_excel(file_location)
-
-        # Replace infinite values with NaN
-        df.replace([float('inf'), float('-inf')], pd.NA, inplace=True)
-
-        # Drop rows that are not fully filled
-        df.dropna(inplace=True)
-
-        # Convert data types where appropriate
-        for col in df.columns:
-            if col not in ['Kecamatan', 'Kelurahan', 'rasio Pasien dan Jumlah Penduduk/10000', 'Prevalensi DM/1000', 'Rasio penduduk dengan Fasyankes']:
-                df[col] = pd.to_numeric(
-                    df[col], errors='coerce').astype('Int64')
-
-        # Fill remaining NaNs with None for JSON serialization
-        df.fillna(value=None, inplace=True)
-
-        # Convert DataFrame to JSON
-        data = df.to_dict(orient='records')
-
-        return {"data": data}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))

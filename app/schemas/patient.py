@@ -55,7 +55,8 @@ class PatientCaseAndOutcomeCounts(BaseModel):
 
 
 class TotalCasesAndOutcomesResponse(BaseModel):
-    jumlah_kasus: int
+    kasus_aktif: int
+    kasus_baru: int
     sembuh: int
     gagal: int
     meninggal: int

@@ -4,6 +4,9 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.api.routers import api_router
 from app.core.config import settings
+import sys
+
+sys.tracebacklimit = 1000  # Set to a high value to show more details
 
 
 def custom_generate_unique_id(route: APIRoute) -> str:

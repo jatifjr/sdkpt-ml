@@ -4,10 +4,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.api import deps
-# from app.crud import survey as survey_crud
-from app.crud.upload_survey import survey as crudsurvey
-from app.schemas import survey as survey_schemas
+from app.crud import upload_survey as crudsurvey
 from app.schemas import upload_survey
+
 
 router = APIRouter()
 
@@ -15,38 +14,57 @@ router = APIRouter()
 @router.get("/kelurahan", response_model=upload_survey.SurveyResponse)
 def read_surveys(
     kelurahan_id: int,
-    db: Session = Depends(deps.get_db),
     skip: int = 0,
-    limit: int = 10
+    limit: int = 10,
+    db: Session = Depends(deps.get_db),
 ):
-    surveys = crudsurvey.get_by_kelurahan_id(
-        db, kelurahan_id=kelurahan_id, skip=skip, limit=limit)
-    if not surveys:
-        raise HTTPException(status_code=404, detail="Surveys not found")
-
+    # Retrieve kelurahan name
     kelurahan_name = crudsurvey.get_kelurahan_name_by_id(db, kelurahan_id)
     if not kelurahan_name:
         raise HTTPException(status_code=404, detail="Kelurahan not found")
 
-    # Sorting the surveys
+    # Retrieve surveys for a kelurahan
+    surveys = crudsurvey.get_by_kelurahan_id(
+        db, kelurahan_id=kelurahan_id, skip=skip, limit=limit
+    )
+
+    # Check if surveys are empty
+    if not surveys:
+        raise HTTPException(status_code=404, detail="Surveys not found")
+
+    # Sort surveys by created_at
     surveys.sort(key=lambda x: (x.created_at.year, x.created_at.month))
 
     # Transform surveys to SurveyItem using the CRUD method
     survey_items = crudsurvey.transform_to_survey_item(surveys)
 
+    # Prepare SurveyData and SurveyResponse
     survey_data = upload_survey.SurveyData(
         kelurahan_id=kelurahan_id,
         kelurahan_name=kelurahan_name,
-        surveys=survey_items
+        surveys=survey_items,
     )
 
     response = upload_survey.SurveyResponse(
-        status="OK",
-        message="Success",
-        data=survey_data
+        status="OK", message="Success", data=survey_data
     )
 
     return response
+
+
+@router.get("/all/latest", response_model=List[upload_survey.SurveyLatest])
+def get_all_latest_surveys(db: Session = Depends(deps.get_db)):
+    try:
+        # Retrieve all latest surveys
+        latest_surveys = crudsurvey.get_latest_surveys(db)
+
+        if not latest_surveys:
+            raise HTTPException(status_code=404, detail="No surveys found")
+
+        return latest_surveys
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # @router.get("/kelurahan", response_model=survey_schemas.SurveyResponse)
@@ -81,18 +99,6 @@ def read_surveys(
 #     )
 
 #     return response
-
-
-@router.get("/all/latest", response_model=List[upload_survey.SurveyLatest])
-def get_all_latest_surveys(
-    db: Session = Depends(deps.get_db)
-):
-    latest_surveys = crudsurvey.get_latest_surveys(db)
-
-    if not latest_surveys:
-        raise HTTPException(status_code=404, detail="No surveys found")
-
-    return latest_surveys
 
 
 # @router.post("/", response_model=survey_schemas.Survey)

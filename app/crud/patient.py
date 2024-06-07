@@ -75,9 +75,11 @@ class CRUDPatient(CRUDBase[Patient, PatientCreate, PatientResponse]):
     def get_total_cases_and_outcomes(self, db: Session) -> TotalCasesAndOutcomesResponse:
         one_year_ago = datetime.now() - timedelta(days=365)
 
-        # Count total cases until one year ago
+        # Count total cases with specified outcomes
         case_count = db.query(func.count()).filter(
-            Patient.tahun >= one_year_ago.year
+            func.lower(Patient.pengobatan_terakhir).in_(
+                ['sembuh', 'putus berobat', 'meninggal', 'pengobatan lengkap']
+            )
         ).scalar()
 
         # Count outcomes
@@ -89,8 +91,19 @@ class CRUDPatient(CRUDBase[Patient, PatientCreate, PatientResponse]):
                 case((Patient.pengobatan_terakhir.ilike('Meninggal'), 1)))
         ).first()
 
+        # Count new cases in the last 6 months
+        six_months_ago = datetime.now() - timedelta(days=180)
+        new_cases = db.query(
+            func.count()
+        ).filter(
+            Patient.pengobatan_terakhir.ilike('Pengobatan Lengkap'),
+            Patient.tahun >= six_months_ago.year,
+            Patient.bulan >= six_months_ago.month
+        ).scalar()
+
         return TotalCasesAndOutcomesResponse(
-            jumlah_kasus=case_count,
+            kasus_aktif=case_count,
+            kasus_baru=new_cases,
             sembuh=outcome_counts[0],
             gagal=outcome_counts[1],
             meninggal=outcome_counts[2]
