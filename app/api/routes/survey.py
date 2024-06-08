@@ -52,6 +52,36 @@ def read_surveys(
     return response
 
 
+@router.get("/kelurahan/latest", response_model=upload_survey.SurveyItem)
+def get_latest_kelurahan(
+    kelurahan_id: int,
+    db: Session = Depends(deps.get_db),
+):
+    # Retrieve kelurahan name
+    kelurahan_name = crudsurvey.get_kelurahan_name_by_id(db, kelurahan_id)
+    if not kelurahan_name:
+        raise HTTPException(status_code=404, detail="Kelurahan not found")
+
+    # Retrieve the latest survey for a kelurahan
+    survey = crudsurvey.get_latest_survey_by_kelurahan_id(
+        db, kelurahan_id=kelurahan_id)
+    if not survey:
+        raise HTTPException(status_code=404, detail="Surveys not found")
+
+    # Transform the survey to SurveyItem using Pydantic's from_orm method
+    survey_item = upload_survey.SurveyItem.from_orm(survey).dict()
+    print(survey_item)
+
+    # Prepare SurveyData and SurveyResponse
+    survey_data = upload_survey.SurveyKelurahanLatest(
+        kelurahan_id=kelurahan_id,
+        kelurahan_name=kelurahan_name,
+        surveys=survey_item,
+    )
+
+    return survey_item
+
+
 @router.get("/all/latest", response_model=List[upload_survey.SurveyLatest])
 def get_all_latest_surveys(db: Session = Depends(deps.get_db)):
     try:

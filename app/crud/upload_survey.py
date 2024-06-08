@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict
 from calendar import month_name
 from datetime import datetime
 from sqlalchemy import func, extract
@@ -90,6 +90,13 @@ class CRUDSurvey(CRUDBase[UploadSurvey, SurveyCreate, SurveyBase]):
             survey_latest_list.append(survey_latest)
 
         return survey_latest_list
+
+    def get_latest_survey_by_kelurahan_id(self, db: Session, kelurahan_id: int) -> Optional[Dict]:
+        latest_survey = db.query(self.model).filter(
+            self.model.kelurahan_id == kelurahan_id).order_by(self.model.created_at.desc()).first()
+        if not latest_survey:
+            return None
+        return SurveyItem.from_orm(latest_survey).dict()
 
     def transform_to_survey_item(self, surveys: List[UploadSurvey]) -> List[SurveyItem]:
         survey_items = []

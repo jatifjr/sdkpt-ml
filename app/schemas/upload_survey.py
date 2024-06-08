@@ -430,6 +430,10 @@ class SurveyItem(BaseModel):
     masyarakat_kategori_stigma_stigma_tinggi: Optional[int]
     masyarakat_kategori_stigma_tidak_stigma: Optional[int]
 
+    class Config:
+        orm_mode = True
+        from_attributes = True
+
 
 # Schema for reading a survey entry
 class SurveyInDBBase(SurveyBase):
@@ -457,3 +461,9 @@ class SurveyLatest(BaseModel):
     kelurahan_name: Optional[str] = None
     bulan: Optional[str] = None
     tahun: Optional[int] = None
+
+
+class SurveyKelurahanLatest(BaseModel):
+    kelurahan_id: Optional[int] = None
+    kelurahan_name: Optional[str] = None
+    survey: Optional[SurveyItem] = None
