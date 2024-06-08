@@ -18,7 +18,7 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
 @router.post('/upload-survey')
-def upload_file(db: Session = Depends(deps.get_db), file: UploadFile = File(...)):
+async def upload_file(db: Session = Depends(deps.get_db), file: UploadFile = File(...)):
     # Check if a file was uploaded
     if not file:
         raise HTTPException(
@@ -37,7 +37,7 @@ def upload_file(db: Session = Depends(deps.get_db), file: UploadFile = File(...)
 
         # Save the file
         with open(file_location, "wb") as buffer:
-            buffer.write(file.file.read())
+            buffer.write(await file.read())
 
         created_surveys = survey.create_from_excel(db, file_location)
         return {"message": f"{len(created_surveys)} surveys created successfully"}
@@ -45,4 +45,4 @@ def upload_file(db: Session = Depends(deps.get_db), file: UploadFile = File(...)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     finally:
-        file.file.close()
+        await file.close()
