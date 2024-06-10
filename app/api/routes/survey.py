@@ -12,6 +12,7 @@ from app.schemas import upload_survey
 router = APIRouter()
 
 
+# ! DO NOT TOUCH THIS
 @router.get("/kelurahan", response_model=upload_survey.SurveyResponse)
 def read_surveys(
     kelurahan_id: int,
@@ -53,6 +54,7 @@ def read_surveys(
     return response
 
 
+# ! DO NOT TOUCH THIS
 @router.get("/kelurahan/latest", response_model=upload_survey.SurveyItem)
 def get_latest_kelurahan(
     kelurahan_id: int,
@@ -62,7 +64,7 @@ def get_latest_kelurahan(
     kelurahan_name = crudsurvey.get_kelurahan_name_by_id(db, kelurahan_id)
     if not kelurahan_name:
         raise HTTPException(status_code=200, detail="Survey not found")
-    
+
     survey = {}
 
     # Retrieve the latest survey for a kelurahan
@@ -87,10 +89,11 @@ def get_latest_kelurahan(
 @router.get("/all/latest", response_model=List[upload_survey.SurveyLatest])
 def get_all_latest_surveys(db: Session = Depends(deps.get_db)):
     # Retrieve all latest surveys
+    latest_surveys = []
     latest_surveys = crudsurvey.get_latest_surveys(db)
 
     if not latest_surveys:
-        raise HTTPException(status_code=404, detail="No surveys found")
+        return latest_surveys
 
     return latest_surveys
 

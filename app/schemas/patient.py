@@ -3,6 +3,7 @@ from typing import Any, Optional, List
 from pydantic import BaseModel
 
 
+# ! DO NOT TOUCH ALL OF THIS
 class PatientBase(BaseModel):
     kelurahan_domisili: Optional[str] = None
     kode_fasyankes: Optional[str] = None

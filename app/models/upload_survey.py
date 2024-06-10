@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Float, func, DateTime
 from app.db.base_class import Base
 
 
+# ! DO NOT TOUCH THIS
 class UploadSurvey(Base):
     __tablename__ = "survey_upload"
 

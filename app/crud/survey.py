@@ -9,6 +9,7 @@ from app.schemas.survey import SurveyCreate, SurveyUpdate, SurveyItem, SurveyLat
 from .base import CRUDBase
 
 
+# ! DO NOT TOUCH THIS
 class CRUDSurvey(CRUDBase[Survey, SurveyCreate, SurveyUpdate]):
     def get_by_kelurahan_id(
         self, db: Session, kelurahan_id: int, skip: int = 0, limit: int = 10

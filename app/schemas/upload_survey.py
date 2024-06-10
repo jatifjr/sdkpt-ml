@@ -4,7 +4,7 @@ from datetime import datetime
 from pydantic import BaseModel, Field
 
 
-# Base schema
+# ! DO NOT TOUCH ALL OF THIS
 class SurveyBase(BaseModel):
     kelurahan_id: Optional[int] = Field(alias="ID Kelurahan")
     kecamatan: Optional[str] = Field(alias="Kecamatan")

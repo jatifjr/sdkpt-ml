@@ -10,8 +10,10 @@ import os
 import numpy as np
 from datetime import datetime
 
-logger = logging.getLogger(__name__)
 
+# ! DO NOT TOUCH ALL OF THIS
+
+logger = logging.getLogger(__name__)
 
 # app/services/prediction.py
 

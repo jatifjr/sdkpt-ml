@@ -4,6 +4,7 @@ from datetime import datetime
 from pydantic import BaseModel, Field
 
 
+# ! DO NOT TOUCH ALL OF THIS
 class SurveyBase(BaseModel):
     kelurahan_id: int
     kelurahan_name: str

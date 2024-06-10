@@ -9,6 +9,7 @@ from app.schemas.semar_betul_auth import SemarBetulAuthBase, SemarBetulAuthCreat
 from app.crud.patient import CRUDPatient  # Importing CRUDPatient class
 
 
+# ! DO NOT TOUCH ALL OF THIS
 class ApiClient:
     def __init__(self, base_url, db_session: Session):
         self.base_url = base_url

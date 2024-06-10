@@ -12,6 +12,8 @@ from app.crud.patient import CRUDPatient
 router = APIRouter()
 
 
+# ! DO NOT TOUCH ALL OF THIS
+
 # @router.get("/test-access-token", response_model=SemarBetulAuth)
 # def test_access_token(db: Session = Depends(deps.get_db)):
 #     # Initialize ApiClient with base URL, username, password, and database session

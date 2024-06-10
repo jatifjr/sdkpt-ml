@@ -10,6 +10,7 @@ from app.models.kelurahan import Kelurahan
 from app.schemas.patient import PatientCreate, PatientResponse, PatientCaseAndOutcomeCounts, PatientOutcomeCounts, TotalCasesAndOutcomesResponse
 
 
+# ! DO NOT TOUCH THIS
 class CRUDPatient(CRUDBase[Patient, PatientCreate, PatientResponse]):
     def __init__(self, model: Type[Patient] = Patient):
         super().__init__(model)

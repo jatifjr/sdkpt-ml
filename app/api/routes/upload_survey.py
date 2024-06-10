@@ -16,7 +16,7 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(
 UPLOAD_DIR = os.path.join(PROJECT_ROOT, "uploads", "surveys")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-
+# ! DO NOT TOUCH THIS
 @router.post('/upload-survey')
 async def upload_file(db: Session = Depends(deps.get_db), file: UploadFile = File(...)):
     # Check if a file was uploaded

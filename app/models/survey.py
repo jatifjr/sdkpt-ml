@@ -6,6 +6,7 @@ from sqlalchemy import Column, Integer, String, Float, DateTime, func
 from app.db.base_class import Base
 
 
+# ! DO NOT TOUCH THIS
 class Survey(Base):
     __tablename__ = "survey"
 
