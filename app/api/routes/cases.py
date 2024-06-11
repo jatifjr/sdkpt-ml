@@ -12,7 +12,7 @@ router = APIRouter()
 router = APIRouter()
 
 
-@router.get("/case-count/{kelurahan_id}", response_model=CasesResponse)
+@router.get("/cases/id={kelurahan_id}", response_model=CasesResponse)
 def get_case_count_by_kelurahan_id(
     kelurahan_id: int,
     db: Session = Depends(deps.get_db)

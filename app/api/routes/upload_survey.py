@@ -5,8 +5,10 @@ from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from sqlalchemy.orm import Session
 from app.api import deps
 from app.crud.upload_survey import upload_survey as survey
+from app.crud.kerentanan import VulnerabilityService
 
 router = APIRouter()
+vulnerability_service = VulnerabilityService()
 
 # Define the root directory of your project
 PROJECT_ROOT = os.path.dirname(os.path.dirname(
@@ -17,6 +19,8 @@ UPLOAD_DIR = os.path.join(PROJECT_ROOT, "uploads", "surveys")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # ! DO NOT TOUCH THIS
+
+
 @router.post('/upload-survey')
 async def upload_file(db: Session = Depends(deps.get_db), file: UploadFile = File(...)):
     # Check if a file was uploaded
@@ -39,10 +43,31 @@ async def upload_file(db: Session = Depends(deps.get_db), file: UploadFile = Fil
         with open(file_location, "wb") as buffer:
             buffer.write(await file.read())
 
-        created_surveys = survey.create_from_excel(db, file_location)
-        return {"message": f"{len(created_surveys)} surveys created successfully"}
+        # Load data from Excel file
+        data = vulnerability_service.load_data(file_location)
 
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        # Train models if not already trained
+        if not vulnerability_service.model_trained():
+            vulnerability_service.train_models(data)
+        else:
+            # Load existing models
+            vulnerability_service.load_models()
+
+        # Compute vulnerability scores
+        vulnerability_service.compute_vulnerability_scores(data)
+
+        # Create clusters using KMeans
+        clustered_data = vulnerability_service.cluster_data(data)
+
+        # Merge data with original data
+        merged_data = vulnerability_service.merge_data(data, clustered_data)
+
+        # Create records in database
+        vulnerability_service.create_bulk(db, merged_data)
+
+        return {"message": f"Survey data uploaded and processed successfully"}
+
+    # except Exception as e:
+    #     raise HTTPException(status_code=500, detail=str(e))
     finally:
         await file.close()

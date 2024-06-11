@@ -1,8 +1,6 @@
 from fastapi import APIRouter, Path, Depends
 from fastapi.exceptions import HTTPException
-from app.services.prediction_service import ForecastService
 from app.services.prediction import forecast_service
-# from app.services.pred import forecast_service
 from app.schemas.prediction import TrainRequest, ForecastRequest, ForecastResponse, RealDataResponse
 from sqlalchemy.orm import Session
 from app.api import deps
@@ -14,48 +12,30 @@ import pandas as pd
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
-service = ForecastService()
 
 
-# ! DO NOT TOUCH THIS
+# ! DO NOT TOUCH ALL OF THIS
 @router.get("/real-data/id={kelurahan_id}", response_model=List[RealDataResponse])
-def get_kelurahan_series(kelurahan_id: int, db: Session = Depends(deps.get_db)):
+def get_real_data_by_id(kelurahan_id: int, db: Session = Depends(deps.get_db)):
     try:
-        real_data = forecast_service.get_kelurahan_series(db, kelurahan_id)
+        real_data = forecast_service.get_actual_data_by_id(db, kelurahan_id)
 
-        # Ensure index is DatetimeIndex
-        if not isinstance(real_data.index, pd.DatetimeIndex):
-            real_data.index = pd.to_datetime(real_data.index)
-
-        # Transform the Month format
-        real_data.index = real_data.index.strftime('%b %Y')
-
-        # Convert Series to a list of dictionaries
-        response_data = [
-            # Ensure RealValue is integer
-            {"Month": month, "RealValue": int(value)}
-            for month, value in zip(real_data.index, real_data.values)
-        ]
-
-        return response_data
+        return real_data
 
     except ValueError as ve:
         raise HTTPException(status_code=404, detail=str(ve))
 
 
-# @router.get("/real-data/id={kelurahan_id}")
-# def get_real_data(kelurahan_id: int = Path(..., title="ID of Kelurahan")):
-#     real_data = service.get_real_data_by_id(kelurahan_id)
-#     if not real_data:
-#         raise HTTPException(status_code=404, detail="ID not found")
-#     return real_data
-
-
 @router.get("/predicted-data/id={id}")
-async def get_predicted_data_by_id(id: int = Path(..., title="ID of Kelurahan")):
-    predicted_data = service.get_predicted_data_by_id(id)
+async def get_predicted_data_by_id(id: int = Path(..., title="ID of Kelurahan"), db: Session = Depends(deps.get_db)):
+    try:
+        predicted_data = forecast_service.get_predicted_data_by_id(db, id)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
     if not predicted_data:
         raise HTTPException(status_code=404, detail="ID not found")
+
     return predicted_data
 
 

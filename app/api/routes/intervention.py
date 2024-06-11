@@ -57,31 +57,3 @@ def read_intervention_response_by_id(
     ]
 
     return intervention_responses
-
-
-# @router.put("/{intervention_id}", response_model=schemas.InterventionResponse)
-# def update_intervention(
-#     *,
-#     db: Session = Depends(deps.get_db),
-#     intervention_id: int,
-#     intervention_in: schemas.InterventionUpdate
-# ):
-#     intervention = intervention_crud.get(db, id=intervention_id)
-#     if not intervention:
-#         raise HTTPException(status_code=404, detail="Intervention not found")
-#     updated_intervention = intervention_crud.update(
-#         db, db_obj=intervention, obj_in=intervention_in)
-#     return schemas.InterventionResponse.from_db(updated_intervention)
-
-
-# @router.delete("/{intervention_id}", response_model=Dict[str, str])
-# def delete_intervention(
-#     *,
-#     db: Session = Depends(deps.get_db),
-#     intervention_id: int
-# ):
-#     intervention = intervention_crud.get(db, id=intervention_id)
-#     if not intervention:
-#         raise HTTPException(status_code=404, detail="Intervention not found")
-#     intervention_crud.remove(db, id=intervention_id)
-#     return {"message": "Intervention deleted"}

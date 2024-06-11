@@ -14,45 +14,45 @@ router = APIRouter()
 
 # ! DO NOT TOUCH ALL OF THIS
 
-# @router.get("/test-access-token", response_model=SemarBetulAuth)
-# def test_access_token(db: Session = Depends(deps.get_db)):
-#     # Initialize ApiClient with base URL, username, password, and database session
-#     base_url = settings.SB_BASE_URL
-#     username = settings.SB_USERNAME
-#     password = settings.SB_PASSWORD
+@router.get("/test-access-token", response_model=SemarBetulAuth)
+def test_access_token(db: Session = Depends(deps.get_db)):
+    # Initialize ApiClient with base URL, username, password, and database session
+    base_url = settings.SB_BASE_URL
+    username = settings.SB_USERNAME
+    password = settings.SB_PASSWORD
 
-#     api_client = ApiClient(base_url, db)
+    api_client = ApiClient(base_url, db)
 
-#     # Attempt to login and fetch access token
-#     access_token = api_client.login(username, password)
-#     if access_token:
-#         return SemarBetulAuth(access_token=access_token)
-#     else:
-#         raise HTTPException(
-#             status_code=500, detail="Failed to fetch access token")
+    # Attempt to login and fetch access token
+    access_token = api_client.login(username, password)
+    if access_token:
+        return SemarBetulAuth(access_token=access_token)
+    else:
+        raise HTTPException(
+            status_code=500, detail="Failed to fetch access token")
 
 
-# @router.get("/fetch-patient-data", response_model=Union[List[PatientResponse], Dict[str, str]])
-# def fetch_patient_data(
-#     db: Session = Depends(deps.get_db),
-#     page: int = 1,
-# ):
-#     base_url = settings.SB_BASE_URL
-#     username = settings.SB_USERNAME
-#     password = settings.SB_PASSWORD
+@router.get("/fetch-patient-data", response_model=Union[List[PatientResponse], Dict[str, str]])
+def fetch_patient_data(
+    db: Session = Depends(deps.get_db),
+    page: int = 1,
+):
+    base_url = settings.SB_BASE_URL
+    username = settings.SB_USERNAME
+    password = settings.SB_PASSWORD
 
-#     api_client = ApiClient(base_url, db)
-#     access_token = api_client.login(username, password)
-#     if page < 1:
-#         raise HTTPException(
-#             status_code=400, detail="Invalid number of pages to fetch")
+    api_client = ApiClient(base_url, db)
+    access_token = api_client.login(username, password)
+    if page < 1:
+        raise HTTPException(
+            status_code=400, detail="Invalid number of pages to fetch")
 
-#     patient_data = api_client.fetch_patient_data(access_token, page)
-#     if patient_data is None:
-#         raise HTTPException(
-#             status_code=500, detail="Failed to fetch patient data")
+    patient_data = api_client.fetch_patient_data(access_token, page)
+    if patient_data is None:
+        raise HTTPException(
+            status_code=500, detail="Failed to fetch patient data")
 
-#     return patient_data
+    return patient_data
 
 
 @router.post("/trigger-fetch-patient-data", response_model=List[PatientResponse])
