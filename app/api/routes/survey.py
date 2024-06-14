@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional, Dict
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -13,7 +13,7 @@ router = APIRouter()
 
 
 # ! DO NOT TOUCH THIS
-@router.get("/kelurahan/latest", response_model=upload_survey.SurveyItem)
+@router.get("/kelurahan/latest", response_model=Dict)
 def get_latest_kelurahan(
     kelurahan_id: int,
     db: Session = Depends(deps.get_db),
@@ -23,25 +23,32 @@ def get_latest_kelurahan(
     if not kelurahan_name:
         raise HTTPException(status_code=200, detail="Survey not found")
 
-    survey = {}
-
     # Retrieve the latest survey for a kelurahan
     survey = crudsurvey.get_latest_survey_by_kelurahan_id(
         db, kelurahan_id=kelurahan_id)
     if not survey:
-        return survey
+        raise HTTPException(status_code=200, detail="Survey not found")
 
-    # Transform the survey to SurveyItem using Pydantic's from_orm method
-    survey_item = upload_survey.SurveyItem.from_orm(survey).dict()
+    # Retrieve merged category sums
+    merged_sums = crudsurvey.get_merged_category_sums(db)
+    merged_sums_for_kelurahan = next(
+        (item for item in merged_sums if item["kelurahan_id"] == kelurahan_id), None)
 
-    # Prepare SurveyData and SurveyResponse
-    survey_data = upload_survey.SurveyKelurahanLatest(
-        kelurahan_id=kelurahan_id,
-        kelurahan_name=kelurahan_name,
-        surveys=survey_item,
-    )
+    if not merged_sums_for_kelurahan:
+        raise HTTPException(status_code=200, detail="Survey not found")
 
-    return survey_item
+    # Remove 'kelurahan_id' from merged_sums_for_kelurahan
+    stats = {k: v for k, v in merged_sums_for_kelurahan.items() if k !=
+             "kelurahan_id"}
+
+    # Prepare the response
+    response = {
+        "kelurahan_id": kelurahan_id,
+        "kelurahan_name": kelurahan_name,
+        "stats": stats
+    }
+
+    return response
 
 
 @router.get("/all/latest", response_model=List[upload_survey.SurveyLatest])

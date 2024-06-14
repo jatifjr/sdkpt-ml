@@ -61,7 +61,7 @@ class CRUDPatient(CRUDBase[Patient, PatientCreate, PatientResponse]):
         ).filter(
             Patient.kelurahan_domisili == kode_kd,
             func.lower(Patient.pengobatan_terakhir).in_(
-                ['sembuh', 'putus berobat', 'meninggal'])
+                ['sembuh', 'putus berobat', 'meninggal', 'pengobatan lengkap'])
         ).group_by(
             Patient.pengobatan_terakhir
         ).all()
@@ -85,7 +85,8 @@ class CRUDPatient(CRUDBase[Patient, PatientCreate, PatientResponse]):
 
         # Count outcomes
         outcome_counts = db.query(
-            func.count(case((Patient.pengobatan_terakhir.ilike('Sembuh'), 1))),
+            func.count(case((Patient.pengobatan_terakhir.ilike(
+                ['Sembuh', 'Pengobatan Lengkap']), 1))),
             func.count(
                 case((Patient.pengobatan_terakhir.ilike('Putus Berobat'), 1))),
             func.count(

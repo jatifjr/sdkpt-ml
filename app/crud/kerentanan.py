@@ -1,11 +1,14 @@
 import os
 import pickle
 import pandas as pd
+import numpy as np
+from typing import Dict, List, Tuple
 from sklearn.preprocessing import StandardScaler
-from sklearn.cluster import KMeans
 from sklearn.ensemble import RandomForestClassifier
+from sqlalchemy import func, and_
 from sqlalchemy.orm import Session
 from app.models.kerentanan import Kerentanan
+from app.models.upload_survey import UploadSurvey
 from app.schemas.kerentanan import KerentananCreate
 import logging
 
@@ -14,10 +17,9 @@ logger = logging.getLogger(__name__)
 
 class VulnerabilityService:
     def __init__(self):
-        # Initialize models and directories
+        # Initialize the Random Forest model
         self.random_forest_model = RandomForestClassifier(
             n_estimators=100, random_state=42)
-        self.kmeans_model = KMeans(n_clusters=4, random_state=42)
         self.models_trained = False
 
         self.model_dir = 'vulnerability_models'
@@ -27,20 +29,137 @@ class VulnerabilityService:
         # Define weights for each feature for vulnerability scoring
         self.weights = {
             'Kepadatan Penduduk': 1,
-            'Jumlah Penduduk': 1,
+            'Jumlah Penduduk': 0,  # Not used in scoring
             'Jumlah Kasus TB': 1,
             'rasio Pasien dan Jumlah Penduduk/10000': 1,
             'Jumlah Kasus DM': 1,
             'Prevalensi DM/1000': 1,
-            'Rasio penduduk dengan Fasyankes': 1,
+            'Jumlah Klinik Pratama': -1,
+            'Jumlah Klinik Utama': -1,
+            'Rasio penduduk dengan Fasyankes': -1,
+            'Jumlah Puskesmas (Jadi satu dengan klinik untuk rasio)': -1,
+            'Pasien_JenisKelamin_Laki-laki': 1,
+            'Pasien_JenisKelamin_Perempuan': -1,
+            'Pasien_PendidikanTerakhir_Diploma': -1,
+            'Pasien_PendidikanTerakhir_S1': -1,
+            'Pasien_PendidikanTerakhir_S2/S3': -1,
+            'Pasien_PendidikanTerakhir_TamatSD': 1,
+            'Pasien_PendidikanTerakhir_TamatSMA/Sederajat': 1,
+            'Pasien_PendidikanTerakhir_TamatSMP/Sederajat': 1,
+            'Pasien_PendidikanTerakhir_TidakSekolah': 1,
+            'Pasien_PendidikanTerakhir_TidakTamatSD': 1,
+            'Pasien_StatusBekerja_Bekerja': 1,
+            'Pasien_StatusBekerja_TidakBekerja': -1,
+            'Pasien_StatusBekerja_BelumBekerja': -1,
+            'Pasien_PendapatanKeluarga_Kategori1': 1,
+            'Pasien_PendapatanKeluarga_Kategori2': 1,
+            'Pasien_PendapatanKeluarga_Kategori3': 1,
+            'Pasien_PendapatanKeluarga_kategori4': -1,
+            'Pasien_PendapatanKeluarga_Kategori5': -1,
+            'Pasien_EfekSampingObat_Tidak': -1,
+            'Pasien_EfekSampingObat_Ya': 1,
+            'Pasien_PengaruhPendapatan_Tidak': -1,
+            'Pasien_PengaruhPendapatan_Ya': 1,
+            'Pasien_KategoriBMI_BeratBadanKurang': 1,
+            'Pasien_KategoriBMI_BeratBadanNormal': -1,
+            'Pasien_KategoriBMI_KelebihanBeratBadan': 1,
+            'Pasien_KategoriBMI_obesitasI': 1,
+            'Pasien_KategoriBMI_obesitasII': 1,
+            'Pasien_KategoriUsia_Anak-Anak': 1,
+            'Pasien_KategoriUsia_Balita': 1,
+            'Pasien_KategoriUsia_DewasaAkhir': 1,
+            'Pasien_KategoriUsia_DewasaAwal': 1,
+            'Pasien_KategoriUsia_LansiaAkhir': 1,
+            'Pasien_KategoriUsia_LansiaAwal': 1,
+            'Pasien_KategoriUsia_Manula': 1,
+            'Pasien_KategoriUsia_RemajaAkhir': 1,
+            'Pasien_KategoriUsia_RemajaAwal': 1,
+            'Pasien_KategoriPengetahuan_Baik': -1,
+            'Pasien_KategoriPengetahuan_Buruk': 1,
+            'Pasien_KategoriPengetahuan_Cukup': -1,
+            'Pasien_KategoriPengetahuan_Kurang': 1,
+            'Pasien_KategoriPerilaku_Baik': -1,
+            'Pasien_KategoriPerilaku_Cukup': -1,
+            'Pasien_KategoriPerilaku_Kurang': 1,
+            'Pasien_KategoriPerilaku_SangatKurang': 1,
+            'Pasien_KategoriLiterasi_Excellent': -1,
+            'Pasien_KategoriLiterasi_Inadequate': 1,
+            'Pasien_KategoriLiterasi_Problematic': 1,
+            'Pasien_KategoriLiterasi_Sufficient': -1,
+            'Pasien_KategoriStigma_TidakStigma': -1,
+            'Pasien_KategoriStigma_StigmaRendah': -1,
+            'Pasien_KategoriStigma_StigmaSangatRendah': -1,
+            'Pasien_KategoriStigma_StigmaSedang': 1,
+            'Pasien_KategoriStigma_StigmaTinggi': 1,
+            'Keluarga_PendidikanTerakhir_Diploma': -1,
+            'Keluarga_PendidikanTerakhir_S1': -1,
+            'Keluarga_PendidikanTerakhir_S2/S3': -1,
+            'Keluarga_PendidikanTerakhir_TamatSD': 1,
+            'Keluarga_PendidikanTerakhir_TamatSMA/Sederajat': 1,
+            'Keluarga_PendidikanTerakhir_TamatSMP/Sederajat': 1,
+            'Keluarga_PendidikanTerakhir_TidakSekolah': 1,
+            'Keluarga_PendidikanTerakhir_TidakTamatSD': 1,
+            'Keluarga_StatusBekerja_Bekerja': 1,
+            'Keluarga_StatusBekerja_TidakBekerja': -1,
+            'Keluarga_RiwayatTBdiRumah_Ada': 1,
+            'Keluarga_RiwayatTBdiRumah_TidakAda': -1,
+            'Keluarga_TPTSerumah_Ada': -1,
+            'Keluarga_TPTSerumah_TidakAda': 1,
+            'Keluarga_JenisLantai_Kayu': 1,
+            'Keluarga_JenisLantai_Tanah': 1,
+            'Keluarga_JenisLantai_Ubin/keramik/tegel': -1,
+            'Keluarga_CahayaMataharimasuk_Tidak': 1,
+            'Keluarga_CahayaMataharimasuk_Ya': -1,
+            'Keluarga_KategoriPengetahuan_Baik': -1,
+            'Keluarga_KategoriPengetahuan_Buruk': 1,
+            'Keluarga_KategoriPengetahuan_Cukup': -1,
+            'Keluarga_KategoriPengetahuan_Kurang': 1,
+            'Keluarga_KategoriLiterasi_Inadequate': 1,
+            'Keluarga_KategoriLiterasi_Problematic': 1,
+            'Keluarga_KategoriLiterasi_Sufficient': -1,
+            'Keluarga_KategoriLiterasi_Excellent': -1,
+            'Keluarga_KategoriStigma_StigmaRendah': -1,
+            'Keluarga_KategoriStigma_StigmaSangatRendah': -1,
+            'Keluarga_KategoriStigma_StigmaSedang': 1,
+            'Keluarga_KategoriStigma_StigmaTinggi': 1,
+            'Keluarga_KategoriStigma_TidakStigma': -1,
+            'Keluarga_KategoriPerilaku_Baik': -1,
+            'Keluarga_KategoriPerilaku_Cukup': -1,
+            'Keluarga_KategoriPerilaku_Kurang': 1,
+            'Keluarga_KategoriPerilaku_SangatKurang': 1,
+            'Masyarakat_PendidikanTerakhir_Diploma': -1,
+            'Masyarakat_PendidikanTerakhir_S1': -1,
+            'Masyarakat_PendidikanTerakhir_S2/S3': -1,
+            'Masyarakat_PendidikanTerakhir_TamatSD': 1,
+            'Masyarakat_PendidikanTerakhir_TamatSMA/Sederajat': 1,
+            'Masyarakat_PendidikanTerakhir_TamatSMP/Sederajat': 1,
+            'Masyarakat_PendidikanTerakhir_TidakSekolah': 1,
+            'Masyarakat_PendidikanTerakhir_TidakTamatSD': 1,
+            'Masyarakat_StatusPerkajaan_Bekerja': 1,
+            'Masyarakat_StatusPerkajaan_TidakBekerja': -1,
+            'Masyarakat_KategoriPendapatan_Kategori1': 1,
+            'Masyarakat_KategoriPendapatan_Kategori2': 1,
+            'Masyarakat_KategoriPendapatan_Kategori3': 1,
+            'Masyarakat_KategoriPendapatan_kategori4': -1,
+            'Masyarakat_KategoriPendapatan_Kategori5': -1,
+            'Masyarakat_KategoriLiterasi_Excellent': -1,
+            'Masyarakat_KategoriLiterasi_Inadequate': 1,
+            'Masyarakat_KategoriLiterasi_Problematic': 1,
+            'Masyarakat_KategoriLiterasi_Sufficient': -1,
+            'Masyarakat_KategoriPengetahuan_Baik': -1,
+            'Masyarakat_KategoriPengetahuan_Buruk': 1,
+            'Masyarakat_KategoriPengetahuan_Cukup': -1,
+            'Masyarakat_KategoriPengetahuan_Kurang': 1,
+            'Masyarakat_KategoriStigma_TidakStigma': -1,
+            'Masyarakat_KategoriStigma_StigmaRendah': -1,
+            'Masyarakat_KategoriStigma_StigmaSangatRendah': -1,
+            'Masyarakat_KategoriStigma_StigmaSedang': 1,
+            'Masyarakat_KategoriStigma_StigmaTinggi': 1,
+            'Masyarakat_KategoriPerilaku_Baik': -1,
+            'Masyarakat_KategoriPerilaku_Cukup': -1,
+            'Masyarakat_KategoriPerilaku_Kurang': 1,
+            'Masyarakat_KategoriPerilaku_SangatKurang': 1,
         }
-
-        # Features selected for clustering
-        self.cluster_features = [
-            'Kepadatan Penduduk', 'Jumlah Penduduk', 'Jumlah Kasus TB',
-            'rasio Pasien dan Jumlah Penduduk/10000', 'Jumlah Kasus DM',
-            'Prevalensi DM/1000', 'Rasio penduduk dengan Fasyankes'
-        ]
 
     def train_models(self, survey_data: pd.DataFrame):
         # Prepare X and y for Random Forest
@@ -51,16 +170,6 @@ class VulnerabilityService:
         # Train Random Forest model
         self.random_forest_model.fit(X_rf, y_rf)
 
-        # Prepare X for KMeans clustering
-        X_km = survey_data[self.cluster_features]
-
-        # Scale X for KMeans
-        scaler = StandardScaler()
-        X_km_scaled = scaler.fit_transform(X_km)
-
-        # Train KMeans model
-        self.kmeans_model.fit(X_km_scaled)
-
         # Mark models as trained
         self.models_trained = True
 
@@ -70,8 +179,7 @@ class VulnerabilityService:
     def save_models(self):
         # Save models using pickle
         model_files = {
-            'random_forest_model': os.path.join(self.model_dir, 'random_forest_model.pkl'),
-            'kmeans_model': os.path.join(self.model_dir, 'kmeans_model.pkl')
+            'random_forest_model': os.path.join(self.model_dir, 'random_forest_model.pkl')
         }
 
         for model_name, model_obj in model_files.items():
@@ -81,8 +189,7 @@ class VulnerabilityService:
     def load_models(self):
         # Load models using pickle
         model_files = {
-            'random_forest_model': os.path.join(self.model_dir, 'random_forest_model.pkl'),
-            'kmeans_model': os.path.join(self.model_dir, 'kmeans_model.pkl')
+            'random_forest_model': os.path.join(self.model_dir, 'random_forest_model.pkl')
         }
 
         for model_name, model_obj in model_files.items():
@@ -105,32 +212,23 @@ class VulnerabilityService:
         return data
 
     def compute_vulnerability_scores(self, data):
-        # Compute vulnerability scores
-        for feature, weight in self.weights.items():
-            if feature in data.columns:
-                data[feature] = data[feature] * weight
-
-        data['Vulnerability_Score'] = data[list(
-            self.weights.keys())].sum(axis=1)
-
-    def cluster_data(self, data):
-        # Select subset of features for clustering
-        X_cluster = data[self.cluster_features]
-
-        # Scale X_cluster
+        # Normalize the data
         scaler = StandardScaler()
-        X_cluster_scaled = scaler.fit_transform(X_cluster)
+        normalized_data = scaler.fit_transform(data[list(self.weights.keys())])
 
-        # Predict clusters using KMeans model
-        clusters = self.kmeans_model.predict(X_cluster_scaled)
-        data['Cluster'] = clusters
+        # Apply weights and compute scores
+        for idx, feature in enumerate(self.weights.keys()):
+            weight = self.weights[feature]
+            normalized_data[:, idx] *= weight
+
+        data['Vulnerability_Score'] = normalized_data.sum(axis=1)
 
         return data
 
-    def merge_data(self, original_data, cluster_data):
-        # Merge cluster data with original data
-        merged_data = pd.merge(original_data, cluster_data[['ID Kelurahan', 'Cluster']],
-                               on='ID Kelurahan', how='left')
+    def merge_data(self, original_data, scored_data):
+        # Merge scored data with original data
+        merged_data = pd.merge(original_data, scored_data[['ID Kelurahan', 'Vulnerability_Score']],
+                               on='ID Kelurahan', how='left', suffixes=('', '_y'))
 
         # Define vulnerability levels
         merged_data['Vulnerability_Level'] = pd.qcut(merged_data['Vulnerability_Score'], q=4, labels=[
@@ -139,18 +237,30 @@ class VulnerabilityService:
         return merged_data
 
     def create_bulk(self, db: Session, data: pd.DataFrame):
-        # Prepare data for bulk insertion
-        data_list = []
+        # Iterate through each row in the DataFrame
         for _, row in data.iterrows():
-            data_list.append(KerentananCreate(
-                kelurahan=row['Kelurahan'],
-                jumlah_kasus=row['Jumlah Kasus TB'],
-                kategori_kerentanan=row['Vulnerability_Level']
-            ))
+            # Check if a record with the same kelurahan already exists
+            existing_record = db.query(Kerentanan).filter(
+                Kerentanan.kelurahan == row['Kelurahan']).first()
 
-        # Insert data into database
-        db_objs = [Kerentanan(**obj.dict()) for obj in data_list]
-        db.add_all(db_objs)
+            if existing_record:
+                # If record exists, update the kategori_kerentanan value
+                update_data = {
+                    'kategori_kerentanan': row['Vulnerability_Level']
+                }
+                db.query(Kerentanan).filter(Kerentanan.id ==
+                                            existing_record.id).update(update_data)
+
+            else:
+                # If record does not exist, create a new record
+                db_obj = KerentananCreate(
+                    kelurahan=row['Kelurahan'],
+                    jumlah_kasus=row['Jumlah Kasus TB'],
+                    kategori_kerentanan=row['Vulnerability_Level']
+                )
+                db.add(Kerentanan(**db_obj.dict()))
+
+        # Commit the transaction
         db.commit()
 
     def get_all(self, db: Session):

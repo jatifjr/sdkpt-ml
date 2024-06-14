@@ -22,16 +22,21 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
 @router.post('/upload-survey')
-async def upload_file(db: Session = Depends(deps.get_db), file: UploadFile = File(...)):
+async def upload_file(
+    db: Session = Depends(deps.get_db),
+    file: UploadFile = File(...)
+):
     # Check if a file was uploaded
     if not file:
         raise HTTPException(
-            status_code=400, detail="No file uploaded. Please upload a file.")
+            status_code=400, detail="No file uploaded. Please upload a file."
+        )
 
     # Check the file extension
     if not file.filename.endswith('.xlsx'):
         raise HTTPException(
-            status_code=400, detail="Invalid file type. Only .xlsx files are allowed.")
+            status_code=400, detail="Invalid file type. Only .xlsx files are allowed."
+        )
 
     try:
         # Generate a new filename using the current timestamp
@@ -46,6 +51,8 @@ async def upload_file(db: Session = Depends(deps.get_db), file: UploadFile = Fil
         # Load data from Excel file
         data = vulnerability_service.load_data(file_location)
 
+        # print(data.columns)
+
         # Train models if not already trained
         if not vulnerability_service.model_trained():
             vulnerability_service.train_models(data)
@@ -54,13 +61,16 @@ async def upload_file(db: Session = Depends(deps.get_db), file: UploadFile = Fil
             vulnerability_service.load_models()
 
         # Compute vulnerability scores
-        vulnerability_service.compute_vulnerability_scores(data)
+        vulnerability_data = vulnerability_service.compute_vulnerability_scores(
+            data)
 
-        # Create clusters using KMeans
-        clustered_data = vulnerability_service.cluster_data(data)
+        # print(vulnerability_data.columns)
 
         # Merge data with original data
-        merged_data = vulnerability_service.merge_data(data, clustered_data)
+        merged_data = vulnerability_service.merge_data(
+            data, vulnerability_data)
+
+        # print(merged_data.columns)
 
         # Create records in database
         vulnerability_service.create_bulk(db, merged_data)
@@ -69,5 +79,6 @@ async def upload_file(db: Session = Depends(deps.get_db), file: UploadFile = Fil
 
     # except Exception as e:
     #     raise HTTPException(status_code=500, detail=str(e))
+
     finally:
         await file.close()

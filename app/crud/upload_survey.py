@@ -99,6 +99,139 @@ class CRUDSurvey(CRUDBase[UploadSurvey, SurveyCreate, SurveyBase]):
             return None
         return SurveyItem.from_orm(latest_survey).dict()
 
+    def get_merged_category_sums(self, db: Session) -> List[Dict]:
+        subquery = (
+            db.query(
+                self.model.kelurahan_id,
+                func.row_number().over(
+                    partition_by=self.model.kelurahan_id,
+                    order_by=[self.model.created_at.desc()]
+                ).label("row_number"),
+                self.model.pasien_kategori_pengetahuan_baik,
+                self.model.pasien_kategori_pengetahuan_buruk,
+                self.model.pasien_kategori_pengetahuan_cukup,
+                self.model.pasien_kategori_pengetahuan_kurang,
+                self.model.pasien_kategori_literasi_excellent,
+                self.model.pasien_kategori_literasi_inadequate,
+                self.model.pasien_kategori_literasi_problematic,
+                self.model.pasien_kategori_literasi_sufficient,
+                self.model.pasien_kategori_stigma_tidak_stigma,
+                self.model.pasien_kategori_stigma_stigma_rendah,
+                self.model.pasien_kategori_stigma_stigma_sangat_rendah,
+                self.model.pasien_kategori_stigma_stigma_sedang,
+                self.model.pasien_kategori_stigma_stigma_tinggi,
+                self.model.keluarga_kategori_pengetahuan_baik,
+                self.model.keluarga_kategori_pengetahuan_buruk,
+                self.model.keluarga_kategori_pengetahuan_cukup,
+                self.model.keluarga_kategori_pengetahuan_kurang,
+                self.model.keluarga_kategori_literasi_excellent,
+                self.model.keluarga_kategori_literasi_inadequate,
+                self.model.keluarga_kategori_literasi_problematic,
+                self.model.keluarga_kategori_literasi_sufficient,
+                self.model.keluarga_kategori_stigma_stigma_rendah,
+                self.model.keluarga_kategori_stigma_stigma_sangat_rendah,
+                self.model.keluarga_kategori_stigma_stigma_sedang,
+                self.model.keluarga_kategori_stigma_stigma_tinggi,
+                self.model.keluarga_kategori_stigma_tidak_stigma,
+                self.model.masyarakat_kategori_pengetahuan_baik,
+                self.model.masyarakat_kategori_pengetahuan_buruk,
+                self.model.masyarakat_kategori_pengetahuan_cukup,
+                self.model.masyarakat_kategori_pengetahuan_kurang,
+                self.model.masyarakat_kategori_literasi_excellent,
+                self.model.masyarakat_kategori_literasi_inadequate,
+                self.model.masyarakat_kategori_literasi_problematic,
+                self.model.masyarakat_kategori_literasi_sufficient,
+                self.model.masyarakat_kategori_stigma_stigma_rendah,
+                self.model.masyarakat_kategori_stigma_stigma_sangat_rendah,
+                self.model.masyarakat_kategori_stigma_stigma_sedang,
+                self.model.masyarakat_kategori_stigma_stigma_tinggi,
+                self.model.masyarakat_kategori_stigma_tidak_stigma,
+            )
+            .subquery()
+        )
+
+        latest_surveys = (
+            db.query(subquery)
+            .filter(subquery.c.row_number == 1)
+            .order_by(subquery.c.kelurahan_id.asc())
+            .all()
+        )
+
+        merged_sums = []
+
+        for survey in latest_surveys:
+            category_sums = {
+                "kelurahan_id": survey.kelurahan_id,
+                "pengetahuan_baik": (
+                    survey.pasien_kategori_pengetahuan_baik +
+                    survey.keluarga_kategori_pengetahuan_baik +
+                    survey.masyarakat_kategori_pengetahuan_baik
+                ),
+                "pengetahuan_buruk": (
+                    survey.pasien_kategori_pengetahuan_buruk +
+                    survey.keluarga_kategori_pengetahuan_buruk +
+                    survey.masyarakat_kategori_pengetahuan_buruk
+                ),
+                "pengetahuan_cukup": (
+                    survey.pasien_kategori_pengetahuan_cukup +
+                    survey.keluarga_kategori_pengetahuan_cukup +
+                    survey.masyarakat_kategori_pengetahuan_cukup
+                ),
+                "pengetahuan_kurang": (
+                    survey.pasien_kategori_pengetahuan_kurang +
+                    survey.keluarga_kategori_pengetahuan_kurang +
+                    survey.masyarakat_kategori_pengetahuan_kurang
+                ),
+                "literasi_excellent": (
+                    survey.pasien_kategori_literasi_excellent +
+                    survey.keluarga_kategori_literasi_excellent +
+                    survey.masyarakat_kategori_literasi_excellent
+                ),
+                "literasi_inadequate": (
+                    survey.pasien_kategori_literasi_inadequate +
+                    survey.keluarga_kategori_literasi_inadequate +
+                    survey.masyarakat_kategori_literasi_inadequate
+                ),
+                "literasi_problematic": (
+                    survey.pasien_kategori_literasi_problematic +
+                    survey.keluarga_kategori_literasi_problematic +
+                    survey.masyarakat_kategori_literasi_problematic
+                ),
+                "literasi_sufficient": (
+                    survey.pasien_kategori_literasi_sufficient +
+                    survey.keluarga_kategori_literasi_sufficient +
+                    survey.masyarakat_kategori_literasi_sufficient
+                ),
+                "stigma_tidak_stigma": (
+                    survey.pasien_kategori_stigma_tidak_stigma +
+                    survey.keluarga_kategori_stigma_tidak_stigma +
+                    survey.masyarakat_kategori_stigma_tidak_stigma
+                ),
+                "stigma_stigma_rendah": (
+                    survey.pasien_kategori_stigma_stigma_rendah +
+                    survey.keluarga_kategori_stigma_stigma_rendah +
+                    survey.masyarakat_kategori_stigma_stigma_rendah
+                ),
+                "stigma_sangat_rendah": (
+                    survey.pasien_kategori_stigma_stigma_sangat_rendah +
+                    survey.keluarga_kategori_stigma_stigma_sangat_rendah +
+                    survey.masyarakat_kategori_stigma_stigma_sangat_rendah
+                ),
+                "stigma_sedang": (
+                    survey.pasien_kategori_stigma_stigma_sedang +
+                    survey.keluarga_kategori_stigma_stigma_sedang +
+                    survey.masyarakat_kategori_stigma_stigma_sedang
+                ),
+                "stigma_tinggi": (
+                    survey.pasien_kategori_stigma_stigma_tinggi +
+                    survey.keluarga_kategori_stigma_stigma_tinggi +
+                    survey.masyarakat_kategori_stigma_stigma_tinggi
+                ),
+            }
+            merged_sums.append(category_sums)
+
+        return merged_sums
+
     def transform_to_survey_item(self, surveys: List[UploadSurvey]) -> List[SurveyItem]:
         survey_items = []
         for survey in surveys:
