@@ -85,8 +85,7 @@ class CRUDPatient(CRUDBase[Patient, PatientCreate, PatientResponse]):
 
         # Count outcomes
         outcome_counts = db.query(
-            func.count(case((Patient.pengobatan_terakhir.ilike(
-                ['Sembuh', 'Pengobatan Lengkap']), 1))),
+            func.count(case((Patient.pengobatan_terakhir.ilike('Sembuh'), 1))),
             func.count(
                 case((Patient.pengobatan_terakhir.ilike('Putus Berobat'), 1))),
             func.count(
