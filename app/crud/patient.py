@@ -9,8 +9,9 @@ from app.models.patient import Patient
 from app.models.kelurahan import Kelurahan
 from app.schemas.patient import PatientCreate, PatientResponse, PatientCaseAndOutcomeCounts, PatientOutcomeCounts, TotalCasesAndOutcomesResponse
 
-
 # ! DO NOT TOUCH THIS
+
+
 class CRUDPatient(CRUDBase[Patient, PatientCreate, PatientResponse]):
     def __init__(self, model: Type[Patient] = Patient):
         super().__init__(model)
@@ -43,7 +44,7 @@ class CRUDPatient(CRUDBase[Patient, PatientCreate, PatientResponse]):
 
         case_count = db.query(func.count()).filter(
             Patient.kelurahan_domisili == kelurahan.kode_kd,
-            Patient.tahun >= one_year_ago.year
+            Patient.tahun == one_year_ago.year
         ).scalar()
         return case_count
 
@@ -60,6 +61,7 @@ class CRUDPatient(CRUDBase[Patient, PatientCreate, PatientResponse]):
             func.count(Patient.pengobatan_terakhir).label("count")
         ).filter(
             Patient.kelurahan_domisili == kode_kd,
+            Patient.tahun == datetime.now().year,
             func.lower(Patient.pengobatan_terakhir).in_(
                 ['sembuh', 'putus berobat', 'meninggal', 'pengobatan lengkap'])
         ).group_by(
@@ -69,7 +71,10 @@ class CRUDPatient(CRUDBase[Patient, PatientCreate, PatientResponse]):
         outcome_counts = {'sembuh': 0, 'gagal': 0, 'meninggal': 0}
         for row in result:
             outcome = row.pengobatan_terakhir.lower().replace(" ", "_")
-            outcome_counts[outcome] = row.count
+            if outcome == 'pengobatan_lengkap':
+                outcome_counts['sembuh'] += row.count
+            else:
+                outcome_counts[outcome] = row.count
 
         return PatientOutcomeCounts(**outcome_counts)
 
@@ -78,6 +83,7 @@ class CRUDPatient(CRUDBase[Patient, PatientCreate, PatientResponse]):
 
         # Count total cases with specified outcomes
         case_count = db.query(func.count()).filter(
+            Patient.tahun == one_year_ago.year,
             func.lower(Patient.pengobatan_terakhir).in_(
                 ['sembuh', 'putus berobat', 'meninggal', 'pengobatan lengkap']
             )
@@ -90,6 +96,8 @@ class CRUDPatient(CRUDBase[Patient, PatientCreate, PatientResponse]):
                 case((Patient.pengobatan_terakhir.ilike('Putus Berobat'), 1))),
             func.count(
                 case((Patient.pengobatan_terakhir.ilike('Meninggal'), 1)))
+        ).filter(
+            Patient.tahun == one_year_ago.year
         ).first()
 
         # Count new cases in the last 6 months
@@ -98,7 +106,7 @@ class CRUDPatient(CRUDBase[Patient, PatientCreate, PatientResponse]):
             func.count()
         ).filter(
             Patient.pengobatan_terakhir.ilike('Pengobatan Lengkap'),
-            Patient.tahun >= six_months_ago.year,
+            Patient.tahun == one_year_ago.year,
             Patient.bulan >= six_months_ago.month
         ).scalar()
 
