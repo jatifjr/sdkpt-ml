@@ -48,7 +48,7 @@ def get_latest_kelurahan(
         "stats": stats
     }
 
-    return response
+    return stats
 
 
 @router.get("/all/latest", response_model=List[upload_survey.SurveyLatest])

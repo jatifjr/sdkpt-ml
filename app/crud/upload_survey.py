@@ -162,67 +162,67 @@ class CRUDSurvey(CRUDBase[UploadSurvey, SurveyCreate, SurveyBase]):
         for survey in latest_surveys:
             category_sums = {
                 "kelurahan_id": survey.kelurahan_id,
-                "pengetahuan_baik": (
+                "pasien_kategori_pengetahuan_baik": (
                     survey.pasien_kategori_pengetahuan_baik +
                     survey.keluarga_kategori_pengetahuan_baik +
                     survey.masyarakat_kategori_pengetahuan_baik
                 ),
-                "pengetahuan_buruk": (
+                "pasien_kategori_pengetahuan_buruk": (
                     survey.pasien_kategori_pengetahuan_buruk +
                     survey.keluarga_kategori_pengetahuan_buruk +
                     survey.masyarakat_kategori_pengetahuan_buruk
                 ),
-                "pengetahuan_cukup": (
+                "pasien_kategori_pengetahuan_cukup": (
                     survey.pasien_kategori_pengetahuan_cukup +
                     survey.keluarga_kategori_pengetahuan_cukup +
                     survey.masyarakat_kategori_pengetahuan_cukup
                 ),
-                "pengetahuan_kurang": (
+                "pasien_kategori_pengetahuan_kurang": (
                     survey.pasien_kategori_pengetahuan_kurang +
                     survey.keluarga_kategori_pengetahuan_kurang +
                     survey.masyarakat_kategori_pengetahuan_kurang
                 ),
-                "literasi_excellent": (
+                "pasien_kategori_literasi_excellent": (
                     survey.pasien_kategori_literasi_excellent +
                     survey.keluarga_kategori_literasi_excellent +
                     survey.masyarakat_kategori_literasi_excellent
                 ),
-                "literasi_inadequate": (
+                "pasien_kategori_literasi_inadequate": (
                     survey.pasien_kategori_literasi_inadequate +
                     survey.keluarga_kategori_literasi_inadequate +
                     survey.masyarakat_kategori_literasi_inadequate
                 ),
-                "literasi_problematic": (
+                "pasien_kategori_literasi_problematic": (
                     survey.pasien_kategori_literasi_problematic +
                     survey.keluarga_kategori_literasi_problematic +
                     survey.masyarakat_kategori_literasi_problematic
                 ),
-                "literasi_sufficient": (
+                "pasien_kategori_literasi_sufficient": (
                     survey.pasien_kategori_literasi_sufficient +
                     survey.keluarga_kategori_literasi_sufficient +
                     survey.masyarakat_kategori_literasi_sufficient
                 ),
-                "stigma_tidak_stigma": (
+                "pasien_kategori_stigma_tidak_stigma": (
                     survey.pasien_kategori_stigma_tidak_stigma +
                     survey.keluarga_kategori_stigma_tidak_stigma +
                     survey.masyarakat_kategori_stigma_tidak_stigma
                 ),
-                "stigma_stigma_rendah": (
+                "pasien_kategori_stigma_stigma_stigma_rendah": (
                     survey.pasien_kategori_stigma_stigma_rendah +
                     survey.keluarga_kategori_stigma_stigma_rendah +
                     survey.masyarakat_kategori_stigma_stigma_rendah
                 ),
-                "stigma_sangat_rendah": (
+                "pasien_kategori_stigma_stigma_sangat_rendah": (
                     survey.pasien_kategori_stigma_stigma_sangat_rendah +
                     survey.keluarga_kategori_stigma_stigma_sangat_rendah +
                     survey.masyarakat_kategori_stigma_stigma_sangat_rendah
                 ),
-                "stigma_sedang": (
+                "pasien_kategori_stigma_stigma_sedang": (
                     survey.pasien_kategori_stigma_stigma_sedang +
                     survey.keluarga_kategori_stigma_stigma_sedang +
                     survey.masyarakat_kategori_stigma_stigma_sedang
                 ),
-                "stigma_tinggi": (
+                "pasien_kategori_stigma_stigma_tinggi": (
                     survey.pasien_kategori_stigma_stigma_tinggi +
                     survey.keluarga_kategori_stigma_stigma_tinggi +
                     survey.masyarakat_kategori_stigma_stigma_tinggi
