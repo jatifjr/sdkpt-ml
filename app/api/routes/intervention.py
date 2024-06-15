@@ -5,40 +5,10 @@ from sqlalchemy.orm import Session
 
 from app import schemas
 from app.api import deps
-from app.crud import intervention as intervention_crud
+from app.crud.intervention import InterventionService
 
 router = APIRouter()
-
-
-@router.get("/", response_model=List[schemas.InterventionResponse])
-def read_interventions(
-    db: Session = Depends(deps.get_db), skip: int = 0, limit: int = 10
-):
-    interventions = intervention_crud.get_multi(db, skip=skip, limit=limit)
-    if not interventions:
-        raise HTTPException(status_code=404, detail="Interventions not found")
-    return [schemas.InterventionResponse.from_db(intervention) for intervention in interventions]
-
-
-# @router.post("/", response_model=schemas.InterventionResponse)
-# def create_intervention(
-#     *,
-#     db: Session = Depends(deps.get_db),
-#     intervention_in: schemas.InterventionCreate
-# ):
-#     intervention = intervention_crud.create(db, obj_in=intervention_in)
-#     return schemas.InterventionResponse.from_db(intervention)
-
-
-@router.get("/{intervention_id}", response_model=schemas.InterventionResponse)
-def read_intervention_by_id(
-    intervention_id: int,
-    db: Session = Depends(deps.get_db)
-):
-    intervention = intervention_crud.get_by_id(db, intervention_id)
-    if not intervention:
-        raise HTTPException(status_code=404, detail="Intervention not found")
-    return schemas.InterventionResponse.from_db(intervention)
+intervention_crud = InterventionService()
 
 
 @router.get("/{intervention_id}/list", response_model=List[schemas.InterventionResponseBody])
@@ -46,7 +16,7 @@ def read_intervention_response_by_id(
     intervention_id: int,
     db: Session = Depends(deps.get_db)
 ):
-    intervention = intervention_crud.get_by_id(db, intervention_id)
+    intervention = intervention_crud.get_by_kelurahan_id(db, intervention_id)
     if not intervention:
         raise HTTPException(status_code=404, detail="Intervention not found")
 

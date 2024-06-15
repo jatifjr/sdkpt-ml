@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from typing import Dict, List, Tuple
 from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import RandomForestClassifier
+# from sklearn.ensemble import RandomForestClassifier
 from sqlalchemy import func, and_
 from sqlalchemy.orm import Session
 from app.models.kerentanan import Kerentanan
@@ -17,14 +17,6 @@ logger = logging.getLogger(__name__)
 
 class VulnerabilityService:
     def __init__(self):
-        # Initialize the Random Forest model
-        self.random_forest_model = RandomForestClassifier(
-            n_estimators=100, random_state=42)
-        self.models_trained = False
-
-        self.model_dir = 'vulnerability_models'
-        if not os.path.exists(self.model_dir):
-            os.makedirs(self.model_dir)
 
         # Define weights for each feature for vulnerability scoring
         self.weights = {
@@ -160,51 +152,6 @@ class VulnerabilityService:
             'Masyarakat_KategoriPerilaku_Kurang': 1,
             'Masyarakat_KategoriPerilaku_SangatKurang': 1,
         }
-
-    def train_models(self, survey_data: pd.DataFrame):
-        # Prepare X and y for Random Forest
-        X_rf = survey_data.drop(
-            ['ID Kelurahan', 'Kelurahan', 'Kecamatan', 'Jumlah Kasus TB'], axis=1)
-        y_rf = survey_data['Jumlah Kasus TB']
-
-        # Train Random Forest model
-        self.random_forest_model.fit(X_rf, y_rf)
-
-        # Mark models as trained
-        self.models_trained = True
-
-        # Save trained models
-        self.save_models()
-
-    def save_models(self):
-        # Save models using pickle
-        model_files = {
-            'random_forest_model': os.path.join(self.model_dir, 'random_forest_model.pkl')
-        }
-
-        for model_name, model_obj in model_files.items():
-            with open(model_obj, 'wb') as f:
-                pickle.dump(getattr(self, model_name), f)
-
-    def load_models(self):
-        # Load models using pickle
-        model_files = {
-            'random_forest_model': os.path.join(self.model_dir, 'random_forest_model.pkl')
-        }
-
-        for model_name, model_obj in model_files.items():
-            if os.path.exists(model_obj):
-                with open(model_obj, 'rb') as f:
-                    setattr(self, model_name, pickle.load(f))
-            else:
-                logger.warning(
-                    f"Model file {model_obj} not found. Retraining the model.")
-                return False
-
-        return True
-
-    def model_trained(self):
-        return self.models_trained
 
     def load_data(self, file_path):
         # Load data from Excel file

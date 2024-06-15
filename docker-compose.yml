@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   db:
-    image: "jc21/mariadb-aria:latest"
+    image: "mysql:latest"
     container_name: sdkpt-ml-db
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
@@ -14,7 +14,7 @@ services:
     networks:
       - nginx_proxy_manager_default
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
 
   backend:
     build:
