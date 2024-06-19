@@ -46,3 +46,4 @@ ENV/
 app/ml/
 app/uploads/surveys/
 app/uploads/pkp/
+dev_data/
