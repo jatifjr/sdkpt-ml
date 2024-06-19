@@ -17,5 +17,5 @@ def get_case_count_by_kelurahan_id(
     kelurahan_id: int,
     db: Session = Depends(deps.get_db)
 ):
-    case_count = patient.get_case_count_by_kelurahan_id(db, kelurahan_id)
-    return {"jumlah_kasus": case_count}
+    case_count = patient.get_case_and_outcome_counts(db, kelurahan_id)
+    return {"jumlah_kasus": case_count.jumlah_kasus}
