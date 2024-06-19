@@ -9,9 +9,6 @@ from app.schemas.cases import CasesResponse
 router = APIRouter()
 
 
-router = APIRouter()
-
-
 @router.get("/cases/id={kelurahan_id}", response_model=CasesResponse)
 def get_case_count_by_kelurahan_id(
     kelurahan_id: int,
