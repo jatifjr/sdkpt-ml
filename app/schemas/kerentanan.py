@@ -13,8 +13,11 @@ class KerentananCreate(KerentananBase):
     pass
 
 
-class KerentananUpdate(KerentananBase):
-    pass
+class KerentananUpdate(BaseModel):
+    id: int
+    kelurahan: str
+    jumlah_kasus: int
+    kategori_kerentanan: str
 
 
 class Kerentanan(KerentananBase):

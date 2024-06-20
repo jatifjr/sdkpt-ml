@@ -9,7 +9,7 @@ from sqlalchemy import func, and_
 from sqlalchemy.orm import Session
 from app.models.kerentanan import Kerentanan
 from app.models.upload_survey import UploadSurvey
-from app.schemas.kerentanan import KerentananCreate
+from app.schemas.kerentanan import KerentananCreate, KerentananUpdate
 import logging
 
 logger = logging.getLogger(__name__)
@@ -200,7 +200,8 @@ class VulnerabilityService:
 
             else:
                 # If record does not exist, create a new record
-                db_obj = KerentananCreate(
+                db_obj = KerentananUpdate(
+                    id=row['ID Kelurahan'],
                     kelurahan=row['Kelurahan'],
                     jumlah_kasus=row['Jumlah Kasus TB'],
                     kategori_kerentanan=row['Vulnerability_Level']

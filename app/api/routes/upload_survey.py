@@ -50,48 +50,23 @@ async def upload_file(
         with open(file_location, "wb") as buffer:
             buffer.write(await file.read())
 
-        # Load data from Excel file
-        data = vulnerability_service.load_data(file_location)
+        survey.create_from_excel(db, file_location)
 
         intervention_service.compute_and_update_interventions(
             db, file_location)
-
-        # # Compute intervention scores
-        # print(data.columns.to_list())
-        # tfidf_data = intervention_service.calculate_tfidf(data)
-        # print(tfidf_data)
-        # weighted_data = intervention_service.apply_weights(tfidf_data)
-        # print(weighted_data)
-        # ranked_data = intervention_service.rank_categories(weighted_data)
-
-        # print(data.columns)
-
-        # # Train models if not already trained
-        # if not vulnerability_service.model_trained():
-        #     vulnerability_service.train_models(data)
-        # else:
-        #     # Load existing models
-        #     vulnerability_service.load_models()
+        # Load data from Excel file
+        data = vulnerability_service.load_data(file_location)
 
         # Compute vulnerability scores
         vulnerability_data = vulnerability_service.compute_vulnerability_scores(
             data)
 
-        # print(vulnerability_data.columns)
-
         # Merge data with original data
         merged_data = vulnerability_service.merge_data(
             data, vulnerability_data)
 
-        # print(merged_data.columns)
-
         # Create records in database
         vulnerability_service.create_bulk(db, merged_data)
-
-        # ranked_categories, interventions = intervention_service.get_ranked_interventions(
-        #     file_location)
-        # intervention_service.save_interventions_to_database(db, file_location)
-        # intervention_service.save_interventions_to_database(db, ranked_data)
 
         return {"message": f"Survey data uploaded and processed successfully"}
 
